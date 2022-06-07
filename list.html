@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul>
+        <!-- unordered list -->
+        <li>짬뽕</li>
+        <li>칼국수</li>
+        <li>따뜻한 라떼</li>
+    </ul>
+    <ol type="1" start="5" reversed>
+        <!-- ordered list -->
+        <!-- 숫자를 넣은 리스트, 아라비아 숫자 말고도 타입 속성을 활용하여 i, I, a, A 지정 가능 -->
+        <!-- start 속성: 지정한 숫자부터 시작할 수 있도록-->
+        <!-- reverse 속성: 항목을 역순으로 표시, 5. 레쓰비, 4. 녹차. 3. 두유 -->
+        <li>레쓰비</li>
+        <li>녹차</li>
+        <li>두유</li>
+        <ul>
+            <!-- 리스트 안에 리스트 추가 가능 -->
+            <li>검은콩 두유</li>
+            <li>오트 우유</li>
+        </ul>
+    </ol>
+    <h3>★ ol, ul 리스트 연습</h3>
+    <ol>
+        ★ ol, ul 리스트 연습
+        <!-- 리스트 안에 텍스트를 쓰면 디폴트로 텍스트 앞에 공백이 생김. 싫으면 리스트 태그 바깥에다가-->
+        <li> 커피</li>
+        <ul>
+            <li> 아이스 아메리카노</li>
+            <li> 카페 라떼</li>
+            <li> 카라멜 마가야또</li>
+        </ul>
+        <li> 과일 </li>
+        <ol type="i">
+            <li> 바나나</li>
+            <li> 사과</li>
+            <li> 오렌지</li>
+        </ol>
+    </ol>
+    <dl> 메뉴
+        <!-- description list -->
+        <dt>커피</dt>
+        <dd>--아메리카노</dd>
+        <dd>--카페라떼</dd>
+        <dt>음료</dt>
+        <dd>--녹차</dd>
+        <dd>--우유</dd>
+    </dl>
+
+    <h3>학생 성적</h3>
+    <table border="1">
+        <!-- tr = 가로라인, td = 세로라인 -->
+        <tr>
+            <td>이름</td>
+            <td>영어점수</td>
+            <td>국어점수</td>
+            <td>합계</td>
+        </tr>
+        <tr>
+            <td>홍길동</td>
+            <td>90</td>
+            <td>80</td>
+            <td>165</td>
+        </tr>
+        <tr>
+            <td>이희수</td>
+            <td>100</td>
+            <td>100</td>
+            <td>200</td>
+        </tr>
+        <tr>
+            <td>이규식</td>
+            <td>88</td>
+            <td>77</td>
+            <td>165</td>
+        </tr>
+    </table>
+
+    <h3> 일부 셀 합치기 p79 </h3>
+    <table border="1">
+        <!-- colspan 속성 사용하여 컬럼 합치기 -->
+        <tr>
+            <td>이름</td>
+            <td width="100px"></td>
+            <td>연락처</td>
+            <td width="100px"></td>
+        </tr>
+        <tr>
+            <th>주소</th>
+            <td colspan="3"></td>
+        </tr>
+        <tr>
+            <td>자기소개</td>
+            <td colspan="3"></td>
+        </tr>
+    </table>
+    <br>
+    <table border="2">
+        <caption> 학생 성적 리스트 </caption>
+        <!-- rowspan 속성 사용하여 컬럼 합치기 -->
+        <thead>
+            <!-- table head -->
+            <tr>
+                <th rowspan="2">이름</th> <!-- th는 중간정렬, bold체로 설정해 줌-->
+                <th>영어점수</th>
+                <th rowspan="2">사진</th>
+            </tr>
+            <tr>
+                <th>수학점수</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- table body -->
+            <tr>
+                <td width="80px" rowspan="2" style="text-align: center;">
+                    <a href="https://namu.wiki/w/%ED%85%90(NCT)">
+                        이영흠
+                    </a>
+                </td>
+                <td style="text-align: right;">90</td>
+                <td rowspan="2"><img width="100px" src="images/이영흠.PNG" alt=""></td>
+            </tr>
+            <tr>
+                <td>80</td>
+            </tr>
+            <tr>
+                <td rowspan="2">
+                    <a href="https://namu.wiki/w/%EC%A0%95%EA%B5%AD(%EB%B0%A9%ED%83%84%EC%86%8C%EB%85%84%EB%8B%A8)">
+                        전정국
+                    </a>
+                </td>
+                <td>80</td>
+                <td rowspan="2"><img width="100px" src="images/정국이.PNG"></td>
+            </tr>
+            <tr>
+                <td>70</td>
+            </tr>
+            <tr>
+                <td width="80px" rowspan="2" style="text-align: center;">
+                    <a href="profile.html">
+                        이희수
+                    </a>
+                </td>
+                <td style="text-align: right;">90</td>
+                <td rowspan="2"><img width="100px" src="images/곰이.PNG" alt=""></td>
+            </tr>
+            <tr>
+                <td>80</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
