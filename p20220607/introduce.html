@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head> 
+
+<body>
+    <h3>홍길동</h3>
+    <h3>20살</h3>
+    <h3>010-1234-1234</h3>
+    <a href="index.html" target="_parent"> 첫페이지 </a>
+
+    <ul id = "fruit" style="color:indianred; background-color: aliceblued;"> <!-- id 어트리뷰트, style 어트리뷰트 사용-->
+        <li>사과 </li>
+        <li>바나나</li>
+        <li>체리</li>
+    </ul>
+    <script>
+        // 자바스크립트 맛보기
+        let h3s = document.getElementsByTagName('h3'); //h3이라는 이름을 가진 태그들을 다 불러와서 let이라는 변수에 담음
+        h3s[0].innerText = 'Hong-Gildong'; //
+
+        let fruit = document.getElementById('fruit');
+        console.log(fruit);
+        fruit.children[0].innerText = 'Apple';
+    </script>
+</body>
+
+</html>
