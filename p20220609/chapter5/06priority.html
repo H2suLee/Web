@@ -1,0 +1,41 @@
+<!--
+  스타일 우선순위
+  (Importance)
+  1. 사용자 스타일 시트
+  2. 제작자 스타일 시트(스타일을 정의할 때 !important가 붙음)
+  3. 제작자 스타일 시트의 일반 스타일
+  4. 기본적인 브라우저 스타일 시트
+  (Specificity)
+  1. 인라인 스타일
+  2. id 스타일
+  3. 클래스 스타일
+  4. 태그 스타일
+  (Source Order): 나중에 온 스타일이 먼저 온 스타일을 덮어 씀
+
+-->
+<!doctype html>
+<html lang="ko">
+<head>
+    <title>온라인 프로필</title>
+    <meta charset="utf-8">
+    <style>
+       body{
+         color: blueviolet;
+       }
+       
+       h2{
+         color:brown !important
+       }
+    </style>
+</head>
+
+<body>
+    <div id="container">      
+      <h2 style="color:green;">이지스퍼블리싱의 미션</h2> <!-- green은 적용 안됨, 스타일 시트의 h2태그에 !important가 걸려있다-->
+      <p>사람에게 구체적으로 도움을 주는 책,<br>
+      우리는 열심히 사는 사람들에게 도움이 되고 싶습니다.<br>
+      <p>우리는 책을 출간하기 전에 질문할 것입니다.</p>
+      <p style="color:red; font-style:italic;">"이 책이 사람들에게 도움이 됩니까?"</p>
+    </div>
+</body>
+</html>
