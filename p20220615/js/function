@@ -1,0 +1,28 @@
+// function
+// js의 함수에선 리턴타입을 명시할 필요도... 파라미터의 타입을 지정해 줄 필요도 없다
+function sum(num1, num2){
+    let result = num1 + num2;
+    console.log(result);
+    return result;
+};
+sum(10,20); // 30
+console.log(sum(10,20)); // 30 30
+
+function makeTd(val){
+    return '<td>' + val + '</td>';
+}
+
+document.write(makeTd('안녕'));
+
+function makeTr(val){
+    return '<tr>' + val + '</tr>';
+}
+
+let values = ['Hong', 'Hwang', 'Choi'];
+let str = '<table border=1>';
+for (let val of values){
+    let td = makeTd(val); // ex 첫번째  턴 <td>Hong</td>
+    str += makeTr(td); // ex 첫번째  턴 <tr><td>Hong</td></tr>
+};
+str += '</table>';
+document.write(str);
