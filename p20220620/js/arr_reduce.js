@@ -126,15 +126,11 @@ console.log('평균: ' + result); // 3
 // 그에 맞는 배열요소만 표로 출력해 주는 프로그램
 console.clear();
 console.log(objAry);
+let gender = prompt('Male or Female');
 let resultTable = objAry.reduce((acc, curr, idx, ary) => {
     // console.log(`accum : ${acc} || curr: ${curr} || idx: ${idx} || ary.length: ${ary.length}`)
-    console.log(curr.gender);
     acc += '<tr>';
-    for(let field in curr[0]){
-        acc+= '<th>' + field + '</th>';
-    }
-    acc += '</tr>';
-    if (curr.gender == 'Male') {
+    if (curr.gender == gender) {
         for (let field in curr) {
             acc += `<td>${curr[field]}</td>` // ${curr}로 해주면 [object Object]
         }
