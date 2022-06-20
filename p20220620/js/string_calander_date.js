@@ -55,3 +55,40 @@ function makeCalendar(y, m) {
     str += '</tr></table>';
     document.write(str);
 }
+
+function makeC(year, month) {
+    // 1일이 무슨 요일인지부터
+    let firstDay = new Date(year, month - 1).getDay();
+    console.log(firstDay); // 3
+
+    let lastDay = new Date(year, month, 0).getDate();
+    console.log(lastDay); // 30
+
+    let tag = '<table border = 1>';
+
+    // thead
+    let days = ['일', '월', '화', '수', '목', '금', '토'];
+    tag += '<thead><tr>';
+    days.forEach(val => {
+        tag += `<th>${val}</th>`;
+    });
+    tag += '</tr></thead><tr>';
+
+    // tbody
+    for (let i = 0; i < firstDay; i++) {
+        tag += '<td></td>'
+    }
+    for (let i = 1; i <= lastDay; i++) {
+        tag += `<td>${i}</td>`
+        if ((i + firstDay) % 7 == 0) {
+            tag += '</tr><tr>';
+        }
+    }
+    tag += '</tr></table>';
+
+    return tag;
+};
+
+result = makeC(year, month);
+console.log(result);
+document.write(result);
