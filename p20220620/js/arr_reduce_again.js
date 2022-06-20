@@ -22,43 +22,37 @@ console.log(gender);
 
 let objAry = JSON.parse(data);
 
-// getGender(){
-//     if(gender == 'Male'){
-//         objAry.
-//     }
-// }
 console.log(objAry);
 
-let result = objAry.reduce((accum, curr, idx, ary) => {
-    // console.log(`accum : ${accum} || curr: ${curr} || idx: ${idx} || ary.length: ${ary.length}`);
+let gender = prompt('Male or Female');
 
-    if (curr.gender == gender) {
-        accum += '<tr>';
-        for (let val in curr) {
-            accum += '<td>' + curr[val] + '</td>';
+result = objAry.reduce((acc, curr, idx, ary) => {
+    // console.log(`accum : ${acc} || curr: ${curr.id} || idx: ${idx} || ary.length: ${ary.length}`)
+
+    if (idx == 0) {
+        acc += '<table border=1><thead><tr>'; //<thead><tr><th>과일</th></tr></thead>
+
+        for (let field in curr) { // field는 key
+            acc += `<th>${field}</th>`
         }
-        accum += '</tr>'
+        acc += '</tr></thead>';
     }
-    if (idx == ary.length) {
-        accum += '</table>';
+    acc += '<tr>'
+
+    for (let field in curr) {
+        if (curr.gender == gender) {
+            acc += `<td>${curr[field]}</td>`; // curr.field or curr[field]는 value
+        }
     }
-    return accum;
-}, '<table border=1>');
+    acc += '</tr>'
+    if (idx == ary.length - 1) {
+        acc += '</table>';
+    }
+    return acc;
 
-// accum += '</tr>'
-// if (gender == 'Male') {
-//     let male = [];
-//     objAry.filter(val => val.gender == 'Male').map(val=>{
-//         male.push(val);    
-//     });
-//     accum += male;
-// }
+}, '');
 
-// return accum;
-// }
-// if (idx == ary.length) {
-//     curr += '</tr></table>'
-// }
-
+document.write('<br><br>');
 console.log(result);
 document.write(result);
+document.write('<br><br>');
