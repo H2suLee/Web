@@ -111,8 +111,8 @@ console.log(str1.concat(str2));
 console.log(''.concat(str1, str3));
 
 let strarr = ['good', ' ', 'morning', '!'];
-console.log(''.concat(strarr));
-console.log(''.concat(...strarr));
+console.log(''.concat(strarr)); // good, ,morning,!
+console.log(''.concat(...strarr)); // good morning!
 
 
 

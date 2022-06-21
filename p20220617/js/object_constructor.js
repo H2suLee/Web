@@ -56,6 +56,7 @@ function Table(data) {
 
     this.createbody = function () {
         this.tag = '<tbody>'; // 안 해주니까 head 두번 뜸
+        // val이 key field가 value
         // forOf로
         // for (let val of this.data) {
         //     this.tag += '<tr>';

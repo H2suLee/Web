@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- div - ul - li로 만들기 -->
+    <div id="show">
+
+    </div>
+    <script>
+        let student = [{
+                sno: 1,
+                sname: '이희수'
+            },
+            {
+                sno: 2,
+                sname: '권소정'
+            },
+            {
+                sno: 3,
+                sname: '김하은'
+            },
+            {
+                sno: 4,
+                sname: '인은지'
+            },
+        ];
+        let show = document.getElementById('show'); //<div></div>
+        let ul = document.createElement('ul'); // <ul></ul>
+        student.forEach(el => {
+            let li = document.createElement('li'); // <li></li> *4
+            li.setAttribute('id', el.sno); // 각 li에 id값 달기
+            let txt = document.createTextNode(`${el.sno}, ${el.sname}`) // sno, sname *4
+            li.appendChild(txt); // <li> sno, sname * 4 </li>
+            ul.appendChild(li); // <ul> <li></li> * 4 </ul>  
+            // console.log(li);
+        });
+        show.appendChild(ul);
+        console.log(show);
+
+        function makeOl() {
+            let ol = document.createElement('ol');
+            student.forEach(el => {
+                let ul = document.createElement('ul');
+                // li.setAttribute('id', el.sno); // 각 li에 id값 달기
+                let txt = document.createTextNode(`${el.sno}`);
+                ul.appendChild(txt);
+                let subli = document.createElement('li');
+                let subtxt = document.createTextNode(`${el.sname}`)
+                subli.appendChild(subtxt); // <li> sno, sname * 4 </li>
+                ul.appendChild(subli); // <ul> <li></li> * 4 </ul>  
+                ol.appendChild(ul);
+            });
+            return ol;
+        }
+
+        let result = show.appendChild(makeOl());
+        console.log(result);
+
+        function makeTable() {
+            let table = document.createElement('table'); //<table></table>
+            table.setAttribute('border', 1);
+
+            student.forEach(el => {
+                let tr = document.createElement('tr')
+                for (let field in el) {
+                    let td = document.createElement('td'); // *8
+                    let text = document.createTextNode(`${el[field]}`); // *8 
+                    td.appendChild(text); // <td> 안에 text*8
+                    tr.appendChild(td); // <tr> 안에 td*8
+                }
+                table.appendChild(tr); // <table>안에 tr*4
+            });
+            return table;
+        }
+        result = show.appendChild(makeTable());
+        console.log(result);
+
+    </script>
+
+</body>
+
+</html>

@@ -126,10 +126,5 @@ const sumEvenn = function (arryy) {
     // 출력하니까 루프 돌면서 짝수값을 그냥 그대로 출력해버림
 }
 
-arrNum.forEach((val, idx, ary) => console.log(sumEvenn(arrNum)));
-console.log('----- me');
 
-const sumEvennn = function(val){
-
-}
-
+// arrNum.forEach((val, idx, ary) => console.log(sumEvenn(arrNum)));

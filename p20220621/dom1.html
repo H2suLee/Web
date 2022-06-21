@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<!-- Dom(Document Object Model): 
+            HTML 파일을 읽어 문서의 구조를 파악하고, 트리 형태로 된 데이터 구조를 만듦. 이 과정에서 닫는 태그 부재 같은 오류 잡아줌
+            트리형태란.. console.log(window) 찍어보면 대충 알 수 있다..
+            예를 들어 document가 최상위 -> html -> body -> div -> ul-->
+
+<body>
+    <div>
+        <ul>
+            <li>Apple</li>
+            <li>Banana</li>
+            <li id="bberry">Blueberryyyyyyyyy</li>
+        </ul>
+    </div>
+
+    <button id="add1">클릭</button>
+    <button id="add2">클릭</button>
+
+    <!-- Dom을 통한 동적처리 -->
+    <script>
+        let list = document.getElementsByTagName('li');
+        console.log(list); // 이때 타입은 HTMLCollection object
+        let detail = list[2] // 두번째 <li></li> 뭉텅이로
+
+        // element, attribute, text => node, DOM API(method, 속성)
+        let attNode = detail.getAttribute('id');
+        let txtNode = detail.childNodes[0];
+        console.log(attNode, txtNode); // bberry  "Blueberryyyyyyyyy"
+
+        // button을 클릭하면 li가 추가되는 기능
+        let add1 = document.getElementById('add1');
+        add1.addEventListener('click', function () {
+            let li = document.createElement('li');
+            // console.log(typeof li); // Object
+            // console.log(li); // innerHTML하기 전엔 <li></li>
+            // console.log(li.innerHTML); // 결과값 없음, childNodes 확인
+            li.appendChild(document.createTextNode('대구'));
+            // li.innerHTML = '대구'; // .innerHTML: 내가 만든 li라는 오브젝트가 가진 속성, childNode 넣는 작업
+            // console.log(li.innerHTML); // 대구
+            let ul = document.querySelector('div > ul'); // 만족하는 첫번째 선택자를 데리고 오겠다
+            // console.log(ul); // append 전엔.. <ul>...</ul>첫번째 ul 뭉텅이로 선택됨
+            // console.log(li); // <li>대구</li>
+            ul.appendChild(li); // 가져온 <ul>..</ul>안에 <li>..</li> 넣기, 글고 바로 화면에 출력됨
+            console.log(ul);
+        })
+
+        // element node 생성
+
+        let btns = document.querySelectorAll('button'); // querySelector는 만족하는 하나만 들고옴, All로 해야 다 들고옴
+        console.log(btns); // 이때 Nodelist object
+        console.log(btns[1]); // id가 add2인 버튼 태그 델꼬 옴
+        btns[1].addEventListener('mouseover', function () {
+            document.querySelector('div > ul > li').remove(); // 첫번째부터
+        });
+        // console.log(btns)
+    </script>
+
+</body>
+
+</html>
