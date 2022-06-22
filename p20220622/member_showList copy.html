@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dom/member.html</title>
+    <style>
+        form {
+            border: 2px solid green;
+        }
+
+        form>label {
+            display: inline-block;
+            width: 25%;
+            background-color: yellow;
+        }
+
+        input[name="phone"] {
+            background-color: silver;
+        }
+
+        #memberName {
+            background-color: beige;
+        }
+
+        form>input:nth-child(11) {
+            background-color: rgb(245, 222, 222);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 회원번호, 회원이름, 연락처, 생년월일 -->
+    <form action="" onsubmit="showList()">
+        <label for="memberId">회원번호</label>
+        <input type="number" name="memberId" id="memberId" value="110011"><br>
+        <label for="memberId">회원이름</label>
+        <input type="text" name="memberName" id="memberName" value="홍길동"><br>
+        <label for="memberId">연락처</label>
+        <input type="text" name="phone" id="phone" value="010-1111-2222"><br>
+        <label for="memberId">생년월일</label>
+        <input type="date" name="birth" id="birth" value="2000-04-23"><br>
+        <label for="memberId">취미</label>
+        <input type="text" name="hobby" id="hobby" value="독서"><br>
+        <input type="submit" value="저장"> <!-- input type submit이랑 bottn 이랑 뭐가 다르지-->
+    </form><br>
+    <!-- 테이블 포맷부터 만들고 값 넣기 -->
+    <div id="show">
+        <table border=1 style="width: 80%;">
+            <thead>
+                <tr>
+                    <th>회원번호</th>
+                    <th>회원이름</th>
+                    <th>연락처</th>
+                    <th>생년월일</th>
+                </tr>
+            </thead>
+            <tbody id="list">
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <script>
+        let data = [{
+                member_id: 11111,
+                member_name: '홍길동',
+                phone: '010-1111-2222',
+                birth: '2000-05-01'
+            },
+            {
+                member_id: 22222,
+                member_name: '멍멍이',
+                phone: '010-2222-3333',
+                birth: '1999-06-01'
+            },
+            {
+                member_id: 33333,
+                member_name: '냥냥이',
+                phone: '010-3333-4444',
+                birth: '1988-07-01'
+            },
+        ];
+
+        function showList() {
+            event.preventDefault(); // 그 이벤트가 갖고 있는 기본 기능을 차단, 아래 문구가 콘솔창에 사라지지 않고 남아 있다
+
+            let tbody = document.querySelector('#list'); 
+            // 반복 tr > td * 4 / tr > td * 4 / tr > td * 4
+            data.forEach((elem) => {
+                let tr = document.createElement('tr');
+                for (let field in elem) {
+                    let td = document.createElement('td'); // <td></td>
+                    let txt = document.createTextNode(elem[field]);
+                    td.appendChild(txt); // <td>110011</td>
+                    tr.appendChild(td); // <tr><td>110011</td></tr>
+                }
+
+                tbody.append(tr);
+            });
+        }
+    </script>
+</body>
+
+</html>

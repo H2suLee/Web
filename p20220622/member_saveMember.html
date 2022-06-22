@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dom/member.html</title>
+    <style>
+        form {
+            border: 2px solid green;
+        }
+
+        form>label {
+            display: inline-block;
+            width: 25%;
+            background-color: yellow;
+        }
+
+        input[name="phone"] {
+            background-color: silver;
+        }
+
+        #memberName {
+            background-color: beige;
+        }
+
+        form>input:nth-child(11) {
+            background-color: rgb(245, 222, 222);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 회원번호, 회원이름, 연락처, 생년월일 -->
+    <form action="" name="memberForm">
+        <label for="memberId">회원번호</label>
+        <input type="number" name="memberId" id="memberId" value="110011"><br>
+        <label for="memberId">회원이름</label>
+        <input type="text" name="memberName" id="memberName" value="홍길동"><br>
+        <label for="memberId">연락처</label>
+        <input type="text" name="phone" id="phone" value="010-1111-2222"><br>
+        <label for="memberId">생년월일</label>
+        <input type="date" name="birth" id="birth" value="2000-04-23"><br>
+        <input type="submit" value="저장"> <!-- input type submit이랑 bottn 이랑 뭐가 다르지-->
+    </form><br>
+    <!-- 테이블 포맷부터 만들고 값 넣기 -->
+    <div id="show">
+        <table border=1 style="width: 80%;">
+            <thead>
+                <tr>
+                    <th>회원번호</th>
+                    <th>회원이름</th>
+                    <th>연락처</th>
+                    <th>생년월일</th>
+                    <th>삭제</th>
+                </tr>
+            </thead>
+            <tbody id="list">
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <script>
+        let data = [{
+                member_id: 11111,
+                member_name: '홍길동',
+                phone: '010-1111-2222',
+                birth: '2000-05-01'
+            },
+            {
+                member_id: 22222,
+                member_name: '멍멍이',
+                phone: '010-2222-3333',
+                birth: '1999-06-01'
+            },
+            {
+                member_id: 33333,
+                member_name: '냥냥이',
+                phone: '010-3333-4444',
+                birth: '1988-07-01'
+            },
+        ];
+
+        function showList() {
+            // event.preventDefault(); // 그 이벤트가 갖고 있는 기본 기능을 차단, 아래 문구가 콘솔창에 사라지지 않고 남아 있다
+            let tbody = document.querySelector('#list');
+            // 반복 tr > td * 4 / tr > td * 4 / tr > td * 4
+            data.forEach(elem => {
+                tbody.append(makeTr(elem));
+            });
+        }
+
+        showList();
+        // html form 태그 안에 <form action="" onsubmit="showList()"> 일케 하는 대신
+        // .addEventListenen('이벤트명', 취할 활동)    
+        document.querySelector('form[name="memberForm"]').addEventListener('submit', saveMember1);
+
+        function saveMember1(evnt) { // 매개값인 evnt가 없으면 오류남
+            evnt.preventDefault(); // 그 이벤트가 갖고 있는 기본 기능을 차단, 아래 문구가 콘솔창에 사라지지 않고 남아 있다
+            // console.log(evnt); // .submit
+
+            // 폼으로는 이런 식으로 value를 불러올 수 있음
+            let memId = document.forms['memberForm']['memberId'].value; // 도트 연산자를 써도 되고 [] 를 써도 됨
+            let memName = document.forms[0].memberName.value;
+            let memPh = document.forms.memberForm.phone.value;
+            let memBd = document.forms.memberForm.birth.value;
+
+            // 예외 처리
+            if (memId == '' || memName == '' || memPh == '' || memBd == '') {
+                alert('항목을 입력해 주세요');
+                return;
+            }
+
+            let member = {};
+            member.id = memId;
+            member.name = memName;
+            member.ph = memPh;
+            member.bd = memBd;
+
+            // 초기화
+            document.forms['memberForm']['memberId'].value = '';
+            document.forms[0].memberName.value = '';
+            document.forms.memberForm.phone.value = null;
+            document.forms.memberForm.birth.value = '2000-01-01';
+
+            // 특정 위치에 커서 깜박깜박 기능
+            document.forms['memberForm'].memberId.focus();
+
+            let tbody = document.querySelector('#list');
+            tbody.append(makeTr(member));
+        }
+
+        function makeTr(member = {}) {
+            let tr = document.createElement('tr');
+            for (let field in member) {
+                let td = document.createElement('td'); // <td></td>
+                let txt = document.createTextNode(member[field]);
+                td.appendChild(txt); // <td>110011</td>
+                tr.appendChild(td); // <tr><td>110011</td></tr>
+            }
+            let td = document.createElement('td');
+            let btn = document.createElement('button');
+            // btn.onclick = function(){};
+
+            // 버튼 기능 구현하기, 두 가지 방법, 화살표/none화살표
+            // btn.addEventListener('click', function(){
+            //     this.parentElement.parentElement.remove(); 
+            //     // <tr><td><button>
+            //     // this: <button>
+            //     // this.parentElement: <td><button>
+            //     // this.parentElement.parentElement: <tr><td><button>                        
+            // });
+            btn.addEventListener('click', (e) => {
+                e.target.parentElement.parentElement.remove();
+                // <tr><td><button>
+                // this: <button>
+                // this.parentElement: <td><button>
+                // this.parentElement.parentElement: <tr><td><button>    
+            });
+            btn.textContent = '삭제';
+            td.appendChild(btn);
+            tr.appendChild(td);
+            return tr;
+        }
+
+        // saveFnc에서 불러온 방식으로 
+        function saveMember2(evnt) {
+            evnt.preventDefault(); // 그 이벤트가 갖고 있는 기본 기능을 차단, 아래 문구가 콘솔창에 사라지지 않고 남아 있다
+            // console.log(evnt); // .submit
+
+            // 태그 안의 속성을 불러오는 방법
+            let memId = document.getElementById('memberId').value;
+            let memName = document.querySelector('#memberName').value;
+            let memPh = document.getElementsByTagName('input')[2].value;
+            let memBd = document.querySelector('form > input:nth-child(11)').value;
+            // let memHb = document.querySelector('input[name="hobby"]').value;
+
+            let fields = [memId, memName, memPh, memBd];
+
+            let tbody = document.querySelector('#list');
+            let tr = document.createElement('tr');
+            for (let field of fields) {
+                let td = document.createElement('td'); // <td></td>
+                let txt = document.createTextNode(field);
+                td.appendChild(txt); // <td>110011</td>
+                tr.appendChild(td); // <tr><td>110011</td></tr>
+            }
+            tbody.append(tr);
+        }
+    </script>
+</body>
+
+</html>

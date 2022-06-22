@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dom/member.html</title>
+    <style>
+        form {
+            border: 2px solid green;
+        }
+
+        form>label {
+            display: inline-block;
+            width: 25%;
+            background-color: yellow;
+        }
+
+        input[name="phone"] {
+            background-color: silver;
+        }
+
+        #memberName {
+            background-color: beige;
+        }
+
+        form>input:nth-child(11) {
+            background-color: rgb(245, 222, 222);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 회원번호, 회원이름, 연락처, 생년월일 -->
+    <form action="" onsubmit="saveFnc()">
+        <label for="memberId">회원번호</label>
+        <input type="number" name="memberId" id="memberId" value="110011"><br>
+        <label for="memberId">회원이름</label>
+        <input type="text" name="memberName" id="memberName" value="홍길동"><br>
+        <label for="memberId">연락처</label>
+        <input type="text" name="phone" id="phone" value="010-1111-2222"><br>
+        <label for="memberId">생년월일</label>
+        <input type="date" name="birth" id="birth" value="2000-04-23"><br>
+        <label for="memberId">취미</label>
+        <input type="text" name="hobby" id="hobby" value="독서"><br>
+        <input type="submit" value="저장"> <!-- input type submit이랑 bottn 이랑 뭐가 다르지-->
+    </form><br>
+
+    <div id="show">
+        
+    </div>
+
+    <script>
+        // 태그 안의 텍스트를 불러오는 방법: innerText, innerHTML, textContent
+        let labels = document.getElementsByTagName('label');
+        console.log(labels[0].textContent);
+        // labels : HTMLcolection(object) 리턴
+        // labels[0] : <label for="memberId">회원번호</label> 
+        // labels[0].innerText : 회원번호
+        // labels[0].innerHTML : 회원번호
+        // labels[0].textContent : 회원번호
+        // labels[0].innerText = '<span>회원번호</span>' // 회원번호, 화면에 span 태그 보임
+        // labels[0].innerHTML = '<span>회원번호</span>' // 회원번호, 화면에 span 태그 안 보임
+        // labels[0].textContent = '<span>회원번호</span>' // 회원번호, 화면에 span 태그 보임
+
+
+        function saveFnc() {
+            event.preventDefault(); // 그 이벤트가 갖고 있는 기본 기능을 차단, 아래 문구가 콘솔창에 사라지지 않고 남아 있다
+            console.log('saveFnc Called');
+
+            // dom => <table><tr><td>values</td></tr></table>
+
+            // 태그 안의 속성을 불러오는 방법
+            let memberID = document.getElementById('memberId').value; // .value 빼면 태그 뭉텅이를 들고 옴
+            let memberName = document.querySelector('#memberName').value; // queryselector는 css 선택자를 매개값으로 받는다
+            let phone = document.getElementsByTagName('input')[2]
+                .value; // htmlcollection -> 두번째 태그 뭉텅이 -> 그 태그 안의 value
+            let birthDay = document.querySelector('form > input:nth-child(11)')
+                .value; // input:nth-child()에 <label>, <input>, <br> 다 카운트해야
+            let hb = document.querySelector('input[name="hobby"]').value;
+            // console.log(memberID);
+            // console.log(memberName);
+            // console.log(phone);
+            // console.log(birthDay);
+            // console.log(hb);
+
+            let fields = [memberID, memberName, phone, birthDay, hb];
+            let table = document.createElement('table'); // <table></table>
+            table.setAttribute('border', '1');
+            let tr = document.createElement('tr'); // <tr></tr>
+
+            // thead
+            for (let i = 0; i < labels.length; i++) {
+                let th = document.createElement('th'); // <td></td>
+                let txt = document.createTextNode(labels[i].innerHTML); // = labels[i].innerHTML라고 하면 append할 때 오류남
+                // console.log(typeof txt);
+
+                th.appendChild(txt);
+                tr.appendChild(th);
+            }
+            table.appendChild(tr);
+            tr = document.createElement('tr');
+            // 아래 네 라인은 value 마다 반복해줘야 하므로, fields라는 배열을 생성하여 루핑 돌리겠음
+            for (let field of fields) {
+                let td = document.createElement('td'); // <td></td>
+                let txt = document.createTextNode(field);
+                console.log(typeof txt);
+                td.appendChild(txt); // <td>110011</td>
+                tr.appendChild(td); // <tr><td>110011</td></tr>
+
+            }
+            table.appendChild(tr); // <table><tr><td>110011</td></tr></table>
+            document.body.appendChild(table); // body를 불러오기 위해서 따로 document.getElement뭐시기 할 필요 없다
+
+        }
+    </script>
+</body>
+
+</html>
