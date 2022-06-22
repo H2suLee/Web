@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dom/member.html</title>
+    <style>
+        form {
+            border: 2px solid green;
+        }
+
+        form>label {
+            display: inline-block;
+            width: 25%;
+            background-color: yellow;
+        }
+
+        input[name="phone"] {
+            background-color: silver;
+        }
+
+        #memberName {
+            background-color: beige;
+        }
+
+        form>input:nth-child(11) {
+            background-color: rgb(245, 222, 222);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 회원번호, 회원이름, 연락처, 생년월일 -->
+    <form action="" name="memberForm">
+        <label for="memberId">회원번호</label>
+        <input type="number" name="memberId" id="memberId" value="110011"><br>
+        <label for="memberId">회원이름</label>
+        <input type="text" name="memberName" id="memberName" value="홍길동"><br>
+        <label for="memberId">연락처</label>
+        <input type="text" name="phone" id="phone" value="010-1111-2222"><br>
+        <label for="memberId">생년월일</label>
+        <input type="date" name="birth" id="birth" value="2000-04-23"><br>
+        <input type="submit" value="비활성화" disabled>
+        <input type="submit" value="추가">
+        <input type="button" value="수정">
+        <input type="button" value="초기화">
+        <input type="button" value="선택삭제">
+
+    </form><br>
+    <!-- 테이블 포맷부터 만들고 값 넣기 -->
+    <div id="show">
+        <table border=1 style="width: 80%;">
+            <thead>
+                <tr>
+                    <th>회원번호</th>
+                    <th>회원이름</th>
+                    <th>연락처</th>
+                    <th>생년월일</th>
+                    <th>삭제</th>
+                    <th><input id="selectAll" type="checkbox"></th>
+                </tr>
+            </thead>
+            <tbody id="list">
+                <!-- showList() -->
+                <!-- saveMember1()(onclick) -->
+            </tbody>
+        </table>
+
+    </div>
+
+    <script>
+        let data = [{
+                member_id: 11111,
+                member_name: '홍길동',
+                phone: '010-1111-2222',
+                birth: '2000-05-01'
+            },
+            {
+                member_id: 22222,
+                member_name: '멍멍이',
+                phone: '010-2222-3333',
+                birth: '1999-06-01'
+            },
+            {
+                member_id: 33333,
+                member_name: '냥냥이',
+                phone: '010-3333-4444',
+                birth: '1988-07-01'
+            },
+        ];
+
+        function showList() {
+            let tbody = document.querySelector('#list');
+            // 반복 (tr*3)_foreach * (td*4)_makeTr()
+            data.forEach(elem => {
+                tbody.append(makeTr(elem));
+            });
+        }
+
+        showList();
+
+
+        function makeTr(member = {}) {
+            let tr = document.createElement('tr');
+
+            for (let field in member) {
+                let td = document.createElement('td'); // <td></td>
+                let txt = document.createTextNode(member[field]);
+                td.appendChild(txt); // <td>110011</td>
+                tr.appendChild(td); // <tr><td>110011</td></tr>
+            }
+            // tbody.appendChild(tr) 하는 대신 맨 하단에 return tr 하는 거 잊지 말기
+            // .append, .appendChild 뭐가 다르지?
+
+            // tr을 클릭하면 그 tr의 textContent들이 input 박스에 들어갈 수 있게 기능 구현
+            // addEventListener(이벤트명, 실행함수, 버블링여부(t/f))
+            // default가 false
+            tr.addEventListener('click', function () {
+                // console.log('tr clicked')
+                // 여기서 this는 내가 클릭한 그 tr
+                // document.forms.memberForm.memberId.value = this.children[0].textContent
+                // document.forms.memberForm.memberName.value = this.children[1].textContent
+                // document.forms.memberForm.phone.value = this.children[2].textContent
+                // document.forms.memberForm.birth.value = this.children[3].textContent
+
+                // 위 내용을 아래와 같이 포문으로
+                for (let i = 0; i < 4; i++) {
+                    document.querySelectorAll('form[name="memberForm"] > input')[i].value = this.children[i]
+                        .textContent
+                }
+            })
+
+            // 삭제 버튼 열 추가하기
+            let td = document.createElement('td');
+            let btn = document.createElement('button');
+            btn.textContent = '삭제';
+            td.appendChild(btn);
+            tr.appendChild(td);
+
+            // 행 삭제 기능 구현하기
+            btn.addEventListener('click', deleteRow);
+
+            // eventListener 메소드 안에 익명함수를 화살표 함수로 쓰는 방식도 가능
+            // btn.addEventListener('click', (e) => {
+            //     e.target.parentElement.parentElement.remove();
+            // });
+
+            // btn.onclick = function(){}; // onclick 속성으로 기능 추가도 가능
+
+            // checkbox 열 추가하기
+            td = document.createElement('td');
+            let chk = document.createElement('input');
+            chk.setAttribute('type', 'checkbox')
+            td.appendChild(chk);
+            tr.appendChild(td);
+
+            // checkbox 기능 구현하기
+            chk.addEventListener('click', changeCk)
+            return tr;
+        }
+
+
+        // called by makeTr()
+        // 삭제 버튼 클릭하면 해당 행 삭제 
+        function deleteRow(e) {
+            e.stopPropagation; // 이거 했는데도 tr 자체가 갖고 있는 이벤트도 자꾸 실행됨 ㅠ
+            this.parentElement.parentElement.remove();
+            // this: <button>
+            // this.parentElement: <td><button>
+            // this.parentElement.parentElement: <tr><td><button>  
+        }
+
+        // called by makeTr()
+        // 체크박스가 모두 체크되면 #selectAll = true 
+        function changeCk(ev) {
+            ev.stopPropagation();
+            let ckBoxAry = document.querySelectorAll('#list > tr > td > input[type="checkbox"]'); // input 뭉텅이 다 델꼬 옴
+            let ckdAry = [];
+            for (let i = 0; i < ckBoxAry.length; i++) {
+                ckdAry.push(ckBoxAry[i].checked)
+            }
+            document.querySelector('#selectAll').checked = ckdAry.every(elem => elem) ? true : false;
+        }
+
+        // selectAll 기능
+        // #selectAll 상태 = #list input[type="checkbox"] 상태
+        document.querySelector('#selectAll').addEventListener('change', selectAll);
+
+        function selectAll() {
+            let theadCheckbox = document.querySelector('#selectAll').checked
+            let tbodyCheckbox = document.querySelectorAll('#list > tr');
+
+            tbodyCheckbox.forEach(tr => {
+                // tr.children[5].children[0].checked = this.checked;
+                // 이렇게도
+                tr.children[5].children[0].checked = theadCheckbox ? true : false;
+            })
+            // if (checked) {
+            //     checkedTr.forEach(tr => {
+            //         tr.children[5].children[0].checked = true;
+            //     })
+            // } else {
+            //     checkedTr.forEach(tr => {
+            //         tr.children[5].children[0].checked = false;
+            //     })
+            // }
+        }
+
+        // 선택 삭제
+        document.querySelector('input[value="선택삭제"]').addEventListener('click', deleteChecked);
+
+        function deleteChecked() {
+            // checkbox가 true인지 false인 지 확인하는 속성
+            // console.log(document.querySelector('#list > tr > td > input[type="checkbox"]').checked);
+
+            let trs = document.querySelectorAll('#list > tr');
+            trs.forEach(tr => {
+                // console.log(tr.children[5]) // <td><input>
+                // console.log(tr.children[5].children[0]) // 
+                // console.log(tr.children[5].children[0].checked) // true 나 false
+                if (tr.children[5].children[0].checked) {
+                    tr.remove();
+                }
+            });
+        }
+
+        // 수정 버튼 기능
+        document.querySelector('input[value="수정"]').addEventListener('click', changeMember);
+
+        function changeMember() {
+            let mId = document.forms.memberForm.memberId.value;
+            let trAry = document.querySelectorAll('#list > tr'); // tr을 다 가져옴, 배열로 가져옴
+            console.log(trAry[0].children[0]); // 111111
+            for (let i = 0; i < trAry.length; i++) {
+                if (mId == trAry[i].children[0].textContent) {
+                    trAry[i].children[1].textContent = document.forms.memberForm.memberName.value;
+                    trAry[i].children[2].textContent = document.forms.memberForm.phone.value;
+                    trAry[i].children[3].textContent = document.forms.memberForm.birth.value;
+                    break;
+                }
+            }
+        }
+
+        // 초기화 버튼 기능
+        // 타입이 reset이었는데 클릭하면 110011 홍길동으로 초기화되길래 타입을 button으로 수정함
+        document.querySelector('input[value="초기화"]').addEventListener('click', initForm);
+
+        function initForm() {
+            document.forms['memberForm']['memberId'].value = '';
+            document.forms[0].memberName.value = '';
+            document.forms.memberForm.phone.value = null;
+            document.forms.memberForm.birth.value = '2000-01-01';
+        }
+
+        // 추가 버튼 기능
+        // html form 태그 안에 <form action="" onsubmit="showList()"> 일케 하는 대신
+        // .addEventListenen('이벤트명', 취할 활동)    
+        document.querySelector('form[name="memberForm"]').addEventListener('submit', saveMember1);
+
+        function saveMember1(evnt) {
+            evnt.preventDefault(); // 그 이벤트가 갖고 있는 기본 기능을 차단, 아래 문구가 콘솔창에 사라지지 않고 남아 있다
+            // console.log(evnt); // .submit
+
+            // 폼으로는 getElementBy 뭐시기 안 쓰고 이런 식으로 value를 불러올 수 있음
+            let memId = document.forms['memberForm']['memberId'].value; // 도트 연산자를 써도 되고 [] 를 써도 됨
+            let memName = document.forms[0].memberName.value;
+            let memPh = document.forms.memberForm.phone.value;
+            let memBd = document.forms.memberForm.birth.value;
+
+            let member = {};
+            member.id = memId;
+            member.name = memName;
+            member.ph = memPh;
+            member.bd = memBd;
+
+            // 예외 처리
+            if (memId == '' || memName == '' || memPh == '' || memBd == '') {
+                alert('항목을 입력해 주세요');
+                return;
+            }
+
+            // 이미 존재하는 아이디가 있는 지 체크
+            let exists = false;
+            let ids = document.querySelectorAll('#list>tr>td:nth-child(1)')
+            // console.log(ids);
+            for (let id of ids) {
+                if (id.textContent == memId) {
+                    exists = true;
+                    alert('이미 존재하는 아이디입니다.')
+                    break;
+                }
+            }
+            // if (exists) {
+            //     alert('이미 존재하는 아이디입니다.')
+            //     return;
+            // }
+
+            // 추가 누르고 나면 초기화
+            document.forms['memberForm']['memberId'].value = '';
+            document.forms[0].memberName.value = '';
+            document.forms.memberForm.phone.value = null;
+            document.forms.memberForm.birth.value = '2000-01-01';
+
+            // // 특정 위치에 커서 깜박깜박 기능
+            document.forms['memberForm'].memberId.focus();
+
+            let tbody = document.querySelector('#list');
+            tbody.append(makeTr(member));
+        }
+
+
+        // 추가 버튼 기능 2
+        // getElementBy 등을 통해 불러오기
+        function saveMember2(evnt) {
+            evnt.preventDefault(); // 그 이벤트가 갖고 있는 기본 기능을 차단, 아래 문구가 콘솔창에 사라지지 않고 남아 있다
+            // console.log(evnt); // .submit
+
+            // 태그 안의 속성을 불러오는 방법
+            let memId = document.getElementById('memberId').value;
+            let memName = document.querySelector('#memberName').value;
+            let memPh = document.getElementsByTagName('input')[2].value;
+            let memBd = document.querySelector('form > input:nth-child(11)').value;
+
+            let fields = [memId, memName, memPh, memBd];
+
+            let tr = document.createElement('tr');
+            for (let field of fields) {
+                let td = document.createElement('td'); // <td></td>
+                let txt = document.createTextNode(field);
+                td.appendChild(txt); // <td>110011</td>
+                tr.appendChild(td); // <tr><td>110011</td></tr>
+            }
+            let tbody = document.querySelector('#list');
+            tbody.append(tr);
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+<!-- 
+children[0]
+childNodes[0]
+
+parentElement
+parentNode
+
+previousElementSibling
+previousElementSibling
+
+nextElementSibling
+
+
+document.querySelectorAll('#list > tr > td')[0].textContent = 1111
+document.querySelectorAll('#list > tr > td')[3].textContent = '2020-01-32'
+document.querySelectorAll('#list > tr')[3] // 네번째 tr 뭉텅이
+document.querySelectorAll('#list > tr').remove() // 오류
+document.querySelectorAll('#list > tr')[0].remove()
+
+document.querySelector('#list > tr:nth-child(2)').children[4].children[0] // <button>삭제</button>
+let btn = document.querySelector('#list > tr:nth-child(2)').children[4].children[0]
+console.log(btn) // <button>삭제</button>
+btn.parentElement.previousElementSibling.previousElementSibling.previousElementSibling // <td>냥냥이</td> -->
