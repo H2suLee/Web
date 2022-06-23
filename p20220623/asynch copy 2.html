@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>asynch.html</title>
+    <script>
+        let xhtp = new XMLHttpRequest();
+
+        xhtp.open('get', 'set.xml');
+        xhtp.send();
+        xhtp.onload = loadCallBack;
+
+        function loadCallBack() {
+            console.log(typeof xhtp.responseXML); // document
+            console.log(this.responseXML); // document
+
+            let doc = this.responseXML;
+            let records = doc.getElementsByTagName('record');
+            records = doc.querySelectorAll('record'); // [{<record>뭉텅이},{<record>뭉텅이},{<record>뭉텅이}...]
+            // console.log(records[0].children[1]); //<first_name>Granthem</first_name>
+            // console.log(records[0].children.length); // 6
+            let show = document.getElementById('show'); //<ul></ul 가지고 옴>
+            records.forEach(member => {
+                let str = ''
+                for (let i = 0; i < member.children.length; i++) {
+                    str += member.children[i].innerHTML + " ";
+                }
+                console.log(str);
+                let li = document.createElement('li');
+                let txt = document.createTextNode(str);
+                li.appendChild(txt);
+                show.appendChild(li);
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <ul id="show">
+
+    </ul>
+</body>
+
+</html>

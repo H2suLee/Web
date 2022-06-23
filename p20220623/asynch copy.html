@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>asynch.html</title>
+    <script>
+        // XMLHttpRequest() // Ajax의 대표적인 비동기 객체(?) 
+        let xhtp = new XMLHttpRequest();
+        xhtp.open('get', 'data.json'); // 매개값으로 요청 방식, 요청 url
+        xhtp.send();
+        xhtp.onload = function () {
+            // onload는 이벤트 관련 속성, load란 로딩 될 때 페이지를 서버에 요청하고, 요청한 결과를 받아 왔을 때 실행 함수를 실행
+            // responseText 결과를 담아주는 속성
+            console.log(typeof xhtp.responseText, xhtp.responseText); // string
+            let parsedData = JSON.parse(xhtp.responseText);
+            console.log(typeof parsedData, parsedData); // object
+
+            // document.write(xhtp.responseText);
+        }
+
+        // xhtp = new XMLHttpRequest();
+
+        // xhtp.open('get', 'dataset.xml'); 
+        // xhtp.send();
+        // xhtp.onload = function () {
+        //     console.log(typeof xhtp.responseXML, xhtp.responseXML); // string
+        //     let doc = xhtp.responseXML;
+        //     // let records = doc.getElementsByTagName('record');
+        //     let records = doc.querySelectorAll('record');
+        //     console.log(records[0].children[0].innerText);
+
+        //     records.forEach(member =>{
+        //         member.children[0].innerHTML; // id
+        //         member.children[1].innerHTML; //
+
+        //     })
+        // }
+    </script>
+</head>
+
+<body>
+    <ul id="show">
+
+    </ul>
+</body>
+
+</html>
