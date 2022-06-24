@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<table>
+		<thead>
+			<th>ID</th>
+			<th>NAME</th>
+			<th>EMAIL</th>
+		</thead>
+		<tbody id="empList"></tbody>
+	</table>
+	<script>
+		let xhtp = new XMLHttpRequest();
+		xhtp.open('get', 'EmpServlet'); // 서버에 데이터 요청
+		xhtp.send();
+		xhtp.onload = function(){ 
+			let parsed =JSON.parse(this.responseText); // 데이터를 responseText로 반환
+			// console.log(parsed);
+			let table = document.querySelector('table');
+			table.setAttribute('border', '1');
+            
+            // thead
+            let heads = ['ID', 'NAME', 'EMAIL'];
+
+            // tbody
+            
+            let newList = [];
+
+            parsed.forEach(elem => {
+				// console.log('하이', elem.empId);
+                let newParsed = {};
+                newParsed.ID = elem.empId
+                newParsed.NAME = elem.lastName
+                newParsed.EMAIL = elem.email
+                
+                newList.push(newParsed);
+            });
+            
+            console.log(newList);
+            
+            let tbody = document.getElementById('empList');
+            newList.forEach(elem => {
+                let tr = document.createElement('tr');
+                for (let field in elem) {
+                    let td = document.createElement('td');
+                    td.innerHTML = elem[field];
+                    tr.append(td);
+                }
+                tbody.append(tr);
+            });
+            table.append(tbody);
+		}
+		
+	</script>
+
+</body>
+</html>

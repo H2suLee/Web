@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+label:nth-child(1) {
+	display: inline-block;
+	width: 100px;
+	background-color: lightblue;
+}
+
+label:nth-of-type(2) {
+	display: inline-block;
+	width: 100px;
+	background-color: lightpink;
+}
+</style>
+</head>
+
+<body>
+	<form action="joinprac.jsp" method="get">
+		<label for="name">이름 : </label> <input type="text" id="name"
+			name="name"><br> <label for="id">아이디 : </label> <input
+			type="text" id="id" name="id"><br> <label for="password">비밀번호
+			: </label> <input type="password" id="password" name="password"><br>
+		<label for="tel">연락처 : </label> <input type="number" id="tel"
+			name="tel1" value="010" style="width: 50px;">- <input
+			type="number" id="tel" name="tel2" style="width: 50px;">- <input
+			type="number" id="tel" name="tel3" style="width: 50px;"><br>
+		<label>성별구분: </label> <label for="men">남 </label> <input type="radio"
+			id="men" name="gender" value="남자"> <label for="women">여 </label> <input
+			type="radio" id="women" name="gender" value="여자"><br> <label>사용언어:
+		</label> <input type="checkbox" name="lang" value="kor"> 한국어 <input
+			type="checkbox" name="lang" value="eng"> 영어 <input
+			type="checkbox" name="lang" value="jp"> 일본어 <input
+			type="checkbox" name="lang" value="cn"> 중국어<br> <label
+			for="intro">자기소개: </label>
+		<textarea name="intro" id="intro" cols="30" rows="5"></textarea>
+		<br> <label for="nation">국적: </label> <select name="nation"
+			id="nation">
+			<option value="USA">미국</option>
+			<option value="KOR">한국</option>
+			<option value="JAP">일본</option>
+			<option value="CN">중국</option>
+		</select><br> <label for="food">좋아하는 음식: </label> <input type="text"
+			name="food" id="food"><br> <input type="submit"
+			value="제출">
+	</form>
+</body>
+
+</html>

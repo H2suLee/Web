@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+form {
+	border: 2px solid green;
+}
+
+form>label {
+	display: inline-block;
+	width: 10%;
+	background-color: yellow;
+}
+</style>
+</head>
+
+<body>
+	<h1></h1>
+	<form action="member" name="memberForm">
+		<label for="memberNo">회원번호</label> <input type="number"
+			name="memberNo" id="memberNo" readonly><br> <label
+			for="memberName">회원이름</label> <input type="text" name="memberName"
+			id="memberName"><br> <label for="phone">연락처</label> <input
+			type="text" name="phone" id="phone"><br> <label
+			for="address">주소</label> <input type="text" name="address"
+			id="address"><br> <label for="birth">생년월일</label> <input
+			type="date" name="birth" id="birth"><br> <label
+			for="image">연락처</label> <input type="file" name="image" id="image"><br>
+		<input type="submit" value="추가"> <input type="reset"
+			value="초기화"> <input type="button" value="선택삭제">
+	</form>
+	<br>
+
+	<div id="show">
+		<table border="1">
+			<thead>
+				<tr>
+					<th>회원번호</th>
+					<th>회원이름</th>
+					<th>연락처</th>
+					<th>주소</th>
+					<th>생년월일</th>
+					<th>사진</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+
+	<script>
+		// 추가버튼 클릭
+		document.forms.memberForm.addEventListener('submit', function(e) {
+			e.preventDefault();
+			console.log(this);
+			let mNo = this.memberNo.value;
+			let mNm = this.memberName.value;
+			let mAr = this.address.value;
+			let mPh = this.phone.value;
+			let mBr = this.birth.value;
+
+			let xhtp = new XMLHttpRequest();
+			xhtp.open('post', 'member'); // 요청방식이 포스트: 매개값이 몸체에 담겨 넘어감
+			xhtp.setRequestHeader('Content-type',
+					'application/x-www-form-urlencoded'); // 넘어가는 데이터의 타입을 지정해 줘야
+			xhtp.send(`name=${mNm}&addr=${mAr}&phone=${mPh}&birth=${mBr}&cmd=add`);
+			xhtp.onload = function() {
+				let result = JSON.parse(this.responseText);
+				console.log(result);
+				document.querySelector('#show tbody').append(makeTr(result));
+			}
+
+		})
+		let fields = ['membNo', 'membName', 'membPhone', 'membAddr', 'membBirth', 'membImage'];
+		function makeTr(member){
+			let tr = document.createElement('tr');
+			
+			fields.forEach(field =>{
+				let td = document.createElement('td');
+				td.innerHTML = member[field];
+				tr.append(td);
+			});
+			return tr;
+		}
+		
+	</script>
+
+</body>
+</html>
