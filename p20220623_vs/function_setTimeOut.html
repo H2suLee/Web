@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>asynch.html</title>
+    <script>
+        // 비동기 처리 (AJAX) aAsynchronous Javascript and XML, 비동기 방식으로 데이터를 주고받고 하는 것
+        // 동기 방식 vs 비동기 방식
+        // 동기 방식: start -> 2초후 -> mid -> end
+        // 비동기방식: start, end -> 2초후 -> mid (비동기방식)
+        // setTimeout(실행 함수, ms) // 1000ms = 1s, 대표적인 비동기 함수
+        console.log('start'); // 1
+        setTimeout(function () {
+            console.log('mid');
+        }, 2000); // 2
+        console.log('end'); // 1
+
+        setTimeout(function () {
+            console.log('start2');
+        }, 3000); // 4
+        setTimeout(function () {
+            console.log('mid2');
+        }, 2000); // 2
+        setTimeout(function () {
+            console.log('end2');
+        }, 2500); // 3
+
+        setTimeout(function () {
+            console.log('start3'); // 5
+            setTimeout(function () {
+                console.log('mid3'); // 6, 5초 후
+                setTimeout(function () {
+                    console.log('end3'); // 7, 6초 후
+                }, 1000);
+            }, 1000);
+
+        }, 4000);
+
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
