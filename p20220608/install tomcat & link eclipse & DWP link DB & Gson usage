@@ -38,4 +38,9 @@ finish하면 edge에서 열리고 초기값이 각 admin, 1234로 설정되어 �
 전송을 누르면 form.jsp 페이지 출력
 
 C:\oraclexe\app\oracle\product\11.2.0\server\jdbc\lib 에 있는 ojdbc6_g를 복사
-DWP의 src/main/webapp/WEB-INF/lib안에다가 붙여넣기
+DWP의 src/main/webapp/WEB-INF/lib안에다가 붙여넣기 
+
+
+
+**Gson
+https://m.blog.naver.com/p952973/220958990834
