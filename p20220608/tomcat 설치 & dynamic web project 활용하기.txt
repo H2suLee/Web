@@ -27,6 +27,7 @@ v9.0 next
 port 8080 이 이미 사용중이다라는 오류메시지 나옴
 window show view server에서 overview 보기
 Ports http/1.1의 포트번호를 80으로 수정하고 컨+s
+https://aspring.tistory.com/entry/Apache-Tomcat-%ED%8F%AC%ED%8A%B8-%EC%98%A4%EB%A5%98-%ED%95%B4%EA%B2%B0%ED%95%98%EA%B8%B0-Starting-Tomcat-v80-Server-at-localhost-has-encountered-a-ploblem-Port-8080-required-by-Tomcat-v80-Server-at-localhost-is-already-in-use
 
 다시
 dynamic web project 우클릭 
