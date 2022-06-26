@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let xhtp = new XMLHttpRequest();
+        xhtp.open('get', 'dummydata/data.xml');
+        xhtp.send();
+        xhtp.onload = makeList;
+
+        function makeList() {
+            console.log(typeof xhtp.responseXML) // document object
+            console.log(this.responseXML); // 여기서 this란 xhtp
+
+            let doc = this.responseXML;
+            let records = doc.getElementsByTagName('record'); // 15개의 레코드를 인자로 가진 배열(html 컬렉션)을 반환 
+            console.log(records[0]); // 첫번째 <record></record> 뭉텅이
+            console.log(records[0].children[0]); // 첫번째 <record></record>의 첫번째 뭉텅이; <id>1</id>
+            // <ul><li> 첫번째 자식 </li></ul>
+            // console.log(records.length); // 15, records[0].length는 undefined
+            // console.log(records[0].children[0].length); // 6, records.children.length 에러남, records.children[0].length undefined 
+            let show1 = document.getElementById('show1');
+            let ul = document.getElementById('list1');
+            for(let i = 0; i < records.length; i++){
+                for(let j = 0; j<records[0].children.length; j++){
+                    let li = document.createElement('li');
+                    li.innerHTML = records[i].children[j].textContent;
+                    // ul.append(li);
+                }
+            }
+            // show1.append(ul);
+            console.clear();
+
+            let show2 = document.getElementById('show2');
+            let ul2 = document.getElementById('list2');
+
+            for (let i = 0; i < records.length; i++) {
+                let li = document.createElement('li');
+                li.textContent = 'Employee\'s Id : ' + records[i].children[0].innerHTML
+                let subol = document.createElement('ol');
+                for (let j = 1; j < records[0].children.length; j++) {
+                    let subli = document.createElement('li');
+                    subli.innerHTML = records[i].children[j].textContent;
+                    subol.append(subli);
+                }
+                li.append(subol);
+                ul2.append(li);
+            }
+            show2.append(ul2);
+
+        }
+    </script>
+    <div id="show1">
+        <ul id="list1">
+
+        </ul>
+    </div>
+
+    <div id="show2">
+        <ul id="list2">
+        </ul>
+    </div>
+</body>
+
+</html>
