@@ -1,0 +1,68 @@
+<!-- me version -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>emp.html</title>
+</head>
+<body>
+	<table>
+		<thead>
+			<th>ID</th>
+			<th>NAME</th>
+			<th>EMAIL</th>
+		</thead>
+		<tbody id="empList"></tbody>
+	</table>
+	<script>
+		let heads = {
+			empId : '사원번호',
+			lastName : '사원이름',
+			email : '이메일'
+		};
+		let xhtp = new XMLHttpRequest();
+		xhtp.open('get', 'EmpServlet');
+		xhtp.send();
+		xhtp.onload = function() {
+			let parsed = JSON.parse(xhtp.responseText);
+			console.log(parsed);
+			let table = document.querySelector('table');
+			table.setAttribute('border', '1');
+			let tbody = document.getElementById('empList');
+			
+			parsed.forEach(elem => {
+				let tr = document.createElement('tr');
+				for(let field in heads){
+					let td = document.createElement('td');
+					td.textContent = elem[field];
+					tr.append(td);
+				}
+				tbody.append(tr);
+			});
+			table.append(tbody);
+			
+            /* let newList = [];
+
+            parsed.forEach(elem => {
+                let newParsed = {};
+                newParsed.ID = elem.empId
+                newParsed.NAME = elem.lastName
+                newParsed.EMAIL = elem.email
+                newList.push(newParsed);
+            });
+            
+            let tbody = document.getElementById('empList');
+            newList.forEach(elem => {
+                let tr = document.createElement('tr');
+                for (let field in elem) {
+                    let td = document.createElement('td');
+                    td.innerHTML = elem[field];
+                    tr.append(td);
+                }
+                tbody.append(tr);
+            });
+            table.append(tbody); */
+		}
+	</script>
+</body>
+</html>
