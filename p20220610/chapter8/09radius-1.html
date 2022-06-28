@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+	<meta charset="utf-8">
+	<title>박스모델</title>
+	<style>
+		.round{
+			display: inline-block;
+			width: 500px;
+			height: 500px;
+			border: 2px solid red;
+			border-radius: 20px;
+			margin: 20px;
+		}
+		#bg{
+			width: 500px;
+			height: 500px; /*이미지에 맞추어서*/
+			border: 2px solid red;
+			background: url(images/pic1.jpg) no-repeat;
+			background-size: 100% 100%;
+			/* background-clip: 100% 100%; */
+		}
+	</style>
+</head>
+
+<body>
+	<div class="round"></div>
+	<div class="round" id="bg"></div>
+</body>
+
+</html>
