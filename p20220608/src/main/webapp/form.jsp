@@ -20,9 +20,6 @@
 
 	String[] hbs = request.getParameterValues("hobby"); // checkbox로 hobby에는 복수의 값이 담길 수 있다. 모든 값을 받을 경우 getParameterValues로 받아올 수 있고, 리턴타입은 스트링 배열
 
-	for (String hb : hbs) {
-		out.print("<li> 취미 : " + hb + "</li>");
-	}
 	/* <h3>에 담을 경우
 	취미 : reading
 	취미 : workout

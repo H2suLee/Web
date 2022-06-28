@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+
+<script type="text/javascript"
+	src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+	google.charts.load('current', {
+		'packages' : [ 'corechart' ]
+	});
+	//google.charts.setOnLoadCallback(drawChart);
+	// 이놈이 여기있으면 fetch와 drawChart() 중 작업이 먼저 끝나는 게 먼저 실행돼서 
+	// fetch보다 drawChart()에서 작업이 먼저 끝나면 데이터를 못 받아와서 차트가 안 뜰 수도 있음
+	// 순차적으로 실행시키기 위해 이놈을 fetch 안으로
+
+	// ChartServlet을 실행하면 JSON 형태의 문자열을 리턴받음
+	// {"Administration":1,"Executive":3,"Sales":3,"Accounting":2,"IT":3,"Shipping":5,"Marketing":2}
+	// 이를 fetch를 통해 다차원 배열로 가공해서 drawChart() 함수의 data에 담아주어야
+	
+	let serverData = [];
+	// serverData[0] = []
+	serverData.push(['부서정보', '부서별인원'])
+	// get 방식으로 넘겨줄 땐 {method: get headerr:..} 뭐 이런 거 할 필요 없음
+	fetch('ChartServlet')
+	.then(result => result.json())
+	.then(result => {
+		console.log('in fetch1: ', result);
+		// obj {} => [[값],[값],[값]]
+		for(let field in result){
+			// {field: result[field]}
+			let innerArr = [];
+			innerArr.push(field);
+			innerArr.push(result[field]);
+			
+			serverData.push(innerArr);
+		}
+		console.log('in fetch2: ', serverData);
+		google.charts.setOnLoadCallback(drawChart);
+	})
+	
+
+	function drawChart() {
+		console.log('in drawChart: ', serverData);
+		var data = google.visualization.arrayToDataTable([
+				[ 'Task', 'Hours per Day' ], [ '할 일', 8 ], [ '식사', 4 ],
+				[ '출퇴근', 2 ], [ 'TV 시청', 2 ], [ '취침', 7 ], [ '운동', 1 ] ]);
+		
+		data = google.visualization.arrayToDataTable(serverData);
+
+		var options = {
+			title : '하루 일과'
+		};
+		
+		options = {
+				title : '부서별 인원 현황'
+			};
+
+		var chart = new google.visualization.PieChart(document
+				.getElementById('piechart'));
+
+		chart.draw(data, options);
+	}
+</script>
+</head>
+<body>
+	<div id="piechart" style="width: 900px; height: 500px;"></div>
+</body>
+</html>

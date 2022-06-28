@@ -10,9 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 /**
  * Servlet implementation class MemberServlet
  */
@@ -46,7 +43,8 @@ public class MemberServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/json;charset=utf-8");
 
-		Gson gson = new GsonBuilder().create();
+//		Gson gson = new GsonBuilder().create();
+		Gson gson - new GsonBuilder().create();
 		String cmd = request.getParameter("cmd");
 		MemberDAO dao = new MemberDAO();
 		List<MemberVO> list = dao.memberList();

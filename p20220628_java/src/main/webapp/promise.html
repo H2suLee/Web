@@ -1,0 +1,128 @@
+<!-- p240~ -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>promise 객체</title>
+</head>
+
+<body>
+    <div id="show">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>회원번호</th>
+                    <th>회원이름</th>
+                    <th>연락처</th>
+                    <th>주소</th>
+                    <th>생년월일</th>
+                    <th>사진</th>
+                    <th>삭제</th>
+                    <th>선택</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        // promise -> fetch: 
+        // promise 객체의 세 가지 상태: pending, fullfilled, rejected
+        // promise의 메소드, .then() - 성공했을 때 실행, catch()
+
+        let promise = new Promise(function (resolve, reject) {
+            // Promise 객체의 첫 매개값, resolve: 정상적으로 호출되었을 때 실행할 콜백함수
+            // Promise 객체의 두번째 매개값, reject: 정상적으로 호출되지 않았을 때 실행할 콜백함수
+            setTimeout(function () {
+                // setTimout의 첫 매개값: 시간이 되면 실행할 콜백함수
+                // setTimout의 두번째 매개값: 지연할 시간, ms
+                resolve('success'); // 성공했을 때 실행할 콜백함수
+            }, 1000);
+        });
+        promise
+            .then(function (result) {
+                // 성공하면 then
+                // result = promise 객체의 콜백함수가 리턴해 주는 값,
+                console.log(result);
+            })
+            .catch(function (error) {
+                // 실패하면 catch
+                console.error(error)
+            });
+
+        function asyncWork(value) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    value -= 20;
+                    if (value > 50) {
+                        resolve(value);
+                    } else {
+                        reject(value);
+                    }
+                }, 1000);
+            });
+        }
+
+        asyncWork(100)
+            .then(function (value) {
+                console.log(value);
+                return asyncWork(value);
+            })
+            .then(function (value) {
+                console.log(value);
+                return asyncWork(value);
+            })
+            .then(function (value) {
+                console.log(value);
+                return asyncWork(value);
+            })
+            .catch(function (error) {
+                console.log('catch > ' + error);
+            })
+
+        fetch('MemberServlet?cmd=select')
+            .then(function (result) {
+                return result.json() // text => json
+            })
+            .then(function (result) {
+                console.log(result);
+    			
+    			for(let field in result){				
+    			document.querySelector('#show tbody').append(makeTr(result[field]));
+    			}
+            })
+            .catch(function (error) {
+                console.error(error);
+            })
+        
+		let fields = ['membNo', 'membName', 'membPhone', 'membAddr', 'membBirth', 'membImage'];
+		function makeTr(member){
+			let tr = document.createElement('tr');
+			tr.setAttribute('id', member.membNo); // ★★★★
+			fields.forEach(field =>{
+				let td = document.createElement('td');
+				td.innerHTML = member[field]? (field == 'membImage'? '<img width="60px" src="images/' + member[field] + '">' : member[field]) : '';
+				tr.append(td);
+			});
+			// 삭제 컬럼 - 삭제 버튼
+			let btn = document.createElement('button');
+			btn.innerHTML = '삭제';
+			let td = document.createElement('td');
+			td.append(btn);
+			tr.append(td);
+			
+			// 선택 컬럼 - 체크박스
+			let input = document.createElement('input');
+			input.setAttribute('type', 'checkbox');
+			td = document.createElement('td');
+			td.append(input);
+			tr.append(td);
+
+			return tr;
+		}
+		
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>20220610_FileUpload</title>
+<style>
+form {
+	border: 2px solid green;
+}
+
+form>label {
+	display: inline-block;
+	width: 10%;
+	background-color: yellow;
+}
+</style>
+<script src="upload.js"></script>
+</head>
+
+<body>
+	<h1></h1>
+	<!-- form태그의 기본 기능: 사용자가 html에서 입력한 데이터들을 가지고 서블렛으로 넘김(받아오진 않음), 넘길 때 name속성의 value가 파라미터가 됨 -->
+	<form action="memberUpload" name="memberForm" method="post"
+		enctype="multipart/form-data">
+		<!-- application/x-www-form-urlencoded여야 request.getParameter()로 데이터 읽을 수 잇다
+			multipart/form-data 서블릿 메소드 안에 MultipartRequest 객체 생성 따로 해줘야 됨 -->
+		<label for="memberNo">회원번호</label> <input type="number" name="no"
+			id="memberNo" readonly><br> <label for="memberName">회원이름</label>
+		<input type="text" name="name" id="memberName"><br> <label
+			for="phone">연락처</label> <input type="text" name="phone" id="phone"><br>
+		<label for="address">주소</label> <input type="text" name="addr"
+			id="address"><br> <label for="birth">생년월일</label> <input
+			type="date" name="birth" id="birth"><br> <label
+			for="image">사진</label> <input type="file" name="image" id="image"><br>
+		<input type="submit" value="삽입"> <input type="reset"
+			value="초기화"> <input type="button" value="선택삭제" id="chkdel">
+		<input type="button" value="수정" id="modify">
+	</form>
+	<!-- 이미지를 넣고 삽입 버튼 누르면 아래 위치에 -->
+	<!-- C:\DV\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\p20220610\images -->
+	<br>
+	<div id="show">
+		<table border="1">
+			<!-- <caption>회원리스트</caption> -->
+			<thead>
+				<tr>
+					<th>회원번호</th>
+					<th>회원이름</th>
+					<th>연락처</th>
+					<th>주소</th>
+					<th>생년월일</th>
+					<th>사진</th>
+					<th>삭제</th>
+					<th>선택</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+
+
+</body>
+</html>

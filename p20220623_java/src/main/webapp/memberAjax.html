@@ -47,6 +47,8 @@ form>label {
 					<th>주소</th>
 					<th>생년월일</th>
 					<th>사진</th>
+					<th>삭제</th>
+					
 				</tr>
 			</thead>
 			<tbody>
@@ -56,7 +58,7 @@ form>label {
 
 	<script>
 		let xhtp = new XMLHttpRequest();
-		xhtp.open('get', 'MemberServlet');
+		xhtp.open('get', 'MemberServlet'); // xhtp.open('get', member?cmd=select);
 		xhtp.send();
 		xhtp.onload = function(){
 			let parsed = JSON.parse(this.responseText);
@@ -91,10 +93,41 @@ form>label {
 			let tr = document.createElement('tr');
 			fields.forEach(field =>{
 				let td = document.createElement('td');
-				td.innerHTML = member[field];
+				//
+				td.innerHTML = member[field]? member[field] : (!''? field == 'membImage' ? 'no img' : '' : '');
 				tr.append(td);
 			});
+			
+			let btn = document.createElement('button');
+			btn.innerHTML = '삭제';
+			let td = document.createElement('td');
+			td.append(btn);
+			tr.append(td);
+			
+			btn.addEventListener('click', rowDelete, false); // bubble, capture
 			return tr;
+		}
+		
+		// 삭제버튼을 누르면 실행할 콜백함수
+		function rowDelete(){
+			// console.log(this.parentElement.parentElement) 
+			// this: btn
+			// this.parentElement: td
+			// this.parentElement.parentElement: tr
+			let delNo = this.parentElement.parentElement.getAttribute('id');
+			
+			let delAjax = new XMLHttpRequest();
+			delAjax.open('post','member');
+			delAjax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			delAjax.send(`cmd=remove&no=${delNo}`);
+			delAjax.onload = function(){
+					let result = JSON.parse(delAjax.responseText);
+					if(result.retCode == 'Success'){
+						document.getElementById(delNo).remove()
+					} else {
+						alert('처리중 에러 발생!')
+					}
+			}
 		}
  
 	</script>
