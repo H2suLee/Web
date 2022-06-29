@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>jquerySample.html</title>
+    <!-- <script src="../jquery/jquery-3.6.0.js"></script> -->
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // 자바 스크립트 기능 구현
+            // jquery에서 제공하는 api를 이용해서 기능 구현
+            let ul = document.createElement('ul');
+            let li = document.createElement('li');
+            li.innerHTML = 'Apple';
+            ul.append(li);
+            li = document.createElement('li');
+            li.innerHTML = 'Banana';
+            ul.append(li);
+            let divShow = document.getElementById('show');
+            divShow.append(ul);
+            // script 태그가 상단에 위치하는 이상 null 오류.
+            // 태그 위치를 div 아래로 옮기거나 addEventListener('DOMContentLoaded' function(){...})
+
+            let ulTag = $('<ul>').append(($('<li>')).html('Apple'),
+                $('<li>').html('Banana'));
+            $('#show').append(ulTag);
+            $('#show ul:nth-child(3)').remove();
+        })
+    </script>
+
+    <!-- jquery 방식 -->
+</head>
+
+<body>
+    <div id="show">
+        <ul>
+            <li>Apple</li>
+            <li>Banana</li>
+        </ul>
+    </div>
+
+</body>
+
+</html>

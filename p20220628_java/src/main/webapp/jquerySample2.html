@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jquerySample2.html</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        let data = [{
+            id: 'user1',
+            name: '홍길동',
+            phone: '010-1111-2222',
+            age: 15
+        }, {
+            id: 'user2',
+            name: '레쓰비',
+            phone: '010-3333-4444',
+            age: 25
+        }]
+        // 제이쿼리에서
+        // document.addEventListener('DOMContentLoaded', function () {})
+        // 의 역할을 하는 메소드: .ready(function(){}) 
+        $(document).ready(function () {
+            // data: 자바스크립트 오브젝트
+            // $(data): 제이쿼리 오브젝트
+            console.log(data); // Array(2)
+            console.log($(data)); // S.fn.init(2)
+            // each(): 제이쿼리에서 제공해 주는 forEach 메소드
+            // each 메소드의 첫번째 매개값은 인덱스, 두번째 매개값은 value
+            let tbody = $('table > tbody');
+            $(data).each((idx, val) => {
+                let btn = $('<button />').text('삭제');
+                btn.on('click', function () {
+                    console.log($(this)); // btn 그 자체
+                    $(this).parent().parent().remove(); // tr한 줄
+                })
+                tbody.append(
+                    // .attr(att,val): val이라는 값으로 att이라는 속성 부여 (setAttribute)
+                    // .attr(att) 해당 태그의 att 속성의 값 불러오기 (getAttribute)
+                    $('<tr />').attr('id', val.id)
+                               .append(
+                                   $('<td />').text(val.id),
+                                   $('<td />').text(val.name),
+                                   $('<td />').text(val.phone),
+                                   $('<td />').text(val.age),
+                                   $('<td />').append(btn)))
+            })
+        })
+    </script>
+</head>
+
+<body>
+    <div id="show">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>회원아이디</th>
+                    <th>회원이름</th>
+                    <th>회원연락처</th>
+                    <th>회원연령</th>
+                    <th>삭제</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
