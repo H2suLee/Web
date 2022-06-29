@@ -1,0 +1,10 @@
+https://jquery.com/download/
+
+Download the uncompressed, development jQuery 3.6.0 클릭 
+-> ctrl+s at C드라이브 밑에 깃 레포지토리로 들어가서 연결된 프로젝트의 webapp 바로 밑에 저장 C:\Users\admin\git\H2suCodingRepository
+
+깃이랑 연동 안 되어있으면 아래 코드로 기릿 (cdn 방식 (Content Delivery Network))
+<script src="http://code.jquery.com/jquery-latest.js"></script> 
+
+https://developers.google.com/speed/libraries#jquery
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
