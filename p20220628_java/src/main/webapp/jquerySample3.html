@@ -25,7 +25,7 @@
             // setting자리에 올 수 있는 값: accept, async, beforeSend, cache, contents ..
             $.ajax({
                 url: './MemberServlet',
-                method: 'get', 
+                method: 'get',
                 // 만약 post 방식이면
                 // method: 'post',
                 // contentType = 'application/x-www-form-urlencoded',
@@ -36,7 +36,7 @@
                 success: function (result) {
                     console.log(result); // 배열 반환 [{},{},{}...]
                     let tbody = $('#show tbody'); //
-                    
+
                     $(result).each((idx, elem) => {
                         // elem: {membNo: , membName: , ....}
                         let btn = $('<button />').text('삭제');

@@ -143,11 +143,15 @@ public class MemberServlet extends HttpServlet {
 			vo.setMembNo(Integer.parseInt(num));
 			if (dao.updateData(vo)) {
 				// out.print("{\"retCode\": \"Success\"}");
-				
+
 				// for 수정 방법 2
-				// {"membNo": "num", "membName": "name", "membPhone": "phone", "membAddr": "vo.getMembAddr()", "membBirth": "birth" "membImage": "image", "retCode": "Success"}
-				// out.print("{\"membNo\": \""+num+"\", \"membName\": \""+name+"\", \"membPhone\": \""+phone+"\", \"membAddr\": \""+addr+"\", \"membBirth\": \""+birth+"\" , \"retCode\": \"Success\" }");
-				
+				// {"membNo": "num", "membName": "name", "membPhone": "phone", "membAddr":
+				// "vo.getMembAddr()", "membBirth": "birth" "membImage": "image", "retCode":
+				// "Success"}
+				// out.print("{\"membNo\": \""+num+"\", \"membName\": \""+name+"\",
+				// \"membPhone\": \""+phone+"\", \"membAddr\": \""+addr+"\", \"membBirth\":
+				// \""+birth+"\" , \"retCode\": \"Success\" }");
+
 				// 윗줄을 라이브러리를 사용해서 편리하게
 				obj.addProperty("membNo", num); // {membNo: 20};
 				obj.addProperty("membName", name);

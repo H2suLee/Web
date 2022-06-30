@@ -14,13 +14,15 @@ form>label {
 	background-color: yellow;
 }
 </style>
-<script src="upload.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="upload_jquery.js"></script>
 </head>
 
 <body>
 	<h1></h1>
 	<!-- form태그의 기본 기능: 사용자가 html에서 입력한 데이터들을 가지고 서블렛으로 넘김(받아오진 않음), 넘길 때 name속성의 value가 파라미터가 됨 -->
-	<form action="memberUpload" name="memberForm" method="post"
+	<form name="memberForm" action="memberUpload" method="post"
 		enctype="multipart/form-data">
 		<!-- application/x-www-form-urlencoded여야 request.getParameter()로 데이터 읽을 수 잇다
 			multipart/form-data 서블릿 메소드 안에 MultipartRequest 객체 생성 따로 해줘야 됨 -->

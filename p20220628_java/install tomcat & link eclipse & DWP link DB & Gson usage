@@ -9,7 +9,7 @@ server
 runtime environment
 add
 apache tomcat v9 선택
-폴더 선택: C:\DV\apache-tomcat-9.0.64-windows-x64\apache-tomcat-9.0.64
+폴더 선택: C:\DV\[안전폴더]apache-tomcat-9.0.63-windows-x64\apache-tomcat-9.0.63 - finish
 
 dynamic web project 우클릭 
 build path 
