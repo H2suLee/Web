@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>도서정보</title>
+
+<style>
+div#box {
+	width: 900px;
+	margin: 0 auto;
+	border: 1px solid black;
+}
+
+form label {
+	display: inline-block;
+	width: 30%;
+	text-align: center;
+	background-color: rgb(225, 221, 221);
+}
+
+form>div>input[type="text"], input[type="number"] {
+	width: 60%;
+}
+
+div#form1 {
+	width: 80%;
+	float: left;
+}
+
+div#form2 {
+	width: 100px;
+	float: left;
+	margin: 0 auto;
+}
+
+div#form2>input {
+	width: 80px;
+	margin: 5px;
+	position: relative;
+	top: 20px;
+	left: 15px;
+}
+
+div#show {
+	clear: both;
+}
+
+div#show>table {
+	width: 100%;
+	padding: 5px;
+	text-align: center;
+	border: 1px solid black;
+}
+
+div#show thead {
+	background-color: darkgrey;
+}
+
+div#show>table th {
+	color: white;
+}
+
+div#show>table td {
+	border-top: 1px dotted black;
+	border-bottom: 1px dotted black;
+	padding: 5px;
+	margin: 30px;
+}
+</style>
+</head>
+
+<body>
+	<div id="box">
+		<form action="" name="bookForm">
+			<div id="form1">
+				<label for="code">도서코드</label> <input type="text" name="no"
+					id="code"><br> <label for="name">도서명</label> <input
+					type="text" name="name" id="name"><br> <label
+					for="writer">저자</label> <input type="text" name="writer"
+					id="writer"><br> <label for="publisher">출판사</label> <input
+					type="text" name="publisher" id="publisher"><br> <label
+					for="price">금액</label> <input type="number" name="price" id="price">
+			</div>
+			<div id="form2">
+				<input type="submit" value="저장"> <input type="button"
+					value="선택삭제" id="chkDel">
+			</div>
+
+		</form>
+		<br>
+		<div id="show">
+			<table>
+				<thead>
+					<tr>
+						<th><input type="checkbox" id="chkBox"></th>
+						<th>도서코드</th>
+						<th>도서명</th>
+						<th>저자</th>
+						<th>출판사</th>
+						<th>가격</th>
+						<th>삭제</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+	<script>
+		// 리스트 출력
+		let xhtp = new XMLHttpRequest();
+		xhtp.open('get', 'BookServlet'); // ★★★★ cmd 파라미터 안 주고 그냥 'MemberServlet'으로 하니까 500오류
+		xhtp.send();
+		xhtp.onload = function () {
+
+			let parsed = JSON.parse(this.responseText);
+			let tbody = document.querySelector('#show tbody')
+			parsed.forEach(book => {
+				tbody.append(makeTr(book));
+			});
+		}
+
+		function makeTr(book) {
+			// console.log('book?', book);
+			let tr = document.createElement('tr');
+			tr.setAttribute('id', book.no); // ★★★★
+
+			// 선택 컬럼 - 체크박스
+			let input = document.createElement('input');
+			input.setAttribute('type', 'checkbox');
+			let td = document.createElement('td');
+			td.append(input);
+			tr.append(td);
+
+			// td에 데이터 입력
+			for (let field in book) {
+				let td = document.createElement('td');
+				td.innerHTML = book[field];
+				tr.append(td);
+			}
+
+			// 삭제 컬럼 - 삭제 버튼
+			let btn = document.createElement('button');
+			btn.innerHTML = '삭제';
+			td = document.createElement('td');
+			td.append(btn);
+			tr.append(td);
+
+			// 삭제 버튼에 이벤트 넣기
+			btn.addEventListener('click', delBtnFnc, false); 
+
+			return tr;
+		}
+
+		// submit event
+		document.forms.bookForm.addEventListener('submit', insertTr);
+
+		//submit event
+		function insertTr(e) {
+			e.preventDefault();
+
+			let No = this.no.value;
+			let Nm = this.name.value;
+			let Wr = this.writer.value;
+			let Pb = this.publisher.value;
+			let Pr = this.price.value;
+
+			/* 		console.log(No);
+					console.log(Nm);
+					console.log(Wr);
+					console.log(Pb);
+					console.log(Pr); */
+
+			xhtp = new XMLHttpRequest();
+			xhtp.open('post', 'BookServlet');
+			xhtp.setRequestHeader('Content-type',
+				'application/x-www-form-urlencoded');
+			xhtp.send(`no=${No}&name=${Nm}&writer=${Wr}&publisher=${Pb}&price=${Pr}&cmd=insert`);
+			xhtp.onload = function () {
+				let parseData = JSON.parse(this.responseText);
+				document.querySelector('#show tbody').append(makeTr(parseData));
+			}
+				// 폼 인풋 초기화
+				this.no.value = '';
+				this.name.value = '';
+				this.writer.value = '';
+				this.publisher.value = '';
+				this.price.value = '';
+
+		}
+
+		// 삭제 버튼에 이벤트 넣기
+		function delBtnFnc(e) {
+			e.stopPropagation();
+			e.preventDefault();
+
+			let delNo = this.parentElement.parentElement.getAttribute('id');
+			console.log('선택된 도서코드: ' + delNo);
+
+			let xhtp = new XMLHttpRequest();
+			xhtp.open('post', 'BookServlet'); // ★★★★ fetch로 할 때 sevlet 경로 뭔지.. 
+			xhtp.setRequestHeader('Content-type',
+				'application/x-www-form-urlencoded');
+			xhtp.send(`cmd=remove&no=${delNo}`); //
+			xhtp.onload = function () {
+				let result = JSON.parse(this.responseText);
+				if (result.retCode == 'Success') { 
+					document.getElementById(delNo).remove()
+				} else {
+					alert('처리중 에러 발생!')
+				}
+			}
+		}
+		// 선택 삭제
+		console.log('call', document.querySelector('input#chkDel'));
+		document.querySelector('input#chkDel').addEventListener('click', chkDelFnc);
+		
+		function chkDelFnc() {
+			let ifChecked = document.querySelectorAll('#show > table > tbody > tr > td > input:checked');
+			ifChecked.forEach(elem => {
+				let delNo = elem.parentElement.parentElement.getAttribute('id');
+				console.log('선택된 도서코드: ' + delNo);
+				let delAjax = new XMLHttpRequest();
+				delAjax.open('post', 'BookServlet');
+				delAjax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+				delAjax.send(`cmd=remove&no=${delNo}`);
+				delAjax.onload = function () {
+					let result = JSON.parse(delAjax.responseText); //
+					if (result.retCode == 'Success') {
+						document.getElementById(delNo).remove()
+					} else {
+						alert('처리중 에러 발생!')
+					}
+				}
+			});
+
+		}
+	</script>
+</body>
+
+</html>
