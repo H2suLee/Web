@@ -1,0 +1,19 @@
+servlet (서비스 DB연동 처리) -> jsp (view)
+						   <% 5가지 <- 스크립틀릿 태그
+						   ${} <- EL % 태그를 대신하는 표현 언어
+						   <% for를 대신해서 <c:forEach.. <- JSTL (Java Standard Tag Library)
+						   
+JDBC (DB처리 라이브러리) 
+1. 드라이버(jar)설치 C:\oraclexe\app\oracle\product\11.2.0\server\jdbc\lib에 있는 jar 파일을 WEB-INF 아래 lib안에 붙여넣기
+2. 클래스로 로드하여 DB 연결: 
+	- Class.forName("패키지.클래스")
+	- Connection conn = DriverManager.getConnection("uri", "계정명", "패스워드")
+3. (Interface) Statement -> (구현클래스) PraparedStatement, CallableStatement
+	- sql 구문 실행 
+		- select 쿼리문 : .executeQuery() -> 건수를 int로 반환 
+		- DML 쿼리문 : .executeUpdate() -> 질의 결과를 ResultSet으로 반환
+4.  ResultSet: 
+	- 커서 이동 메소드(.next(), .previous(), .first(), .absolute()) 
+	- 컬럼 값을 읽는 메소드(.getInt(), .getString()..)
+						   
+5. 연결해제 conn.close()					
