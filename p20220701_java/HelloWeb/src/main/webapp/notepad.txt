@@ -1,0 +1,235 @@
+내 컴퓨터 사양
+시작 -> 설정 -> 시스템 -> 정보
+
+이클립스 설치
+https://parkjye.tistory.com/33#:~:text=%23%20%EC%9D%B4%ED%81%B4%EB%A6%BD%EC%8A%A4(Eclipse)%20%EC%84%A4%EC%B9%98%20%5B%EC%B5%9C%EC%8B%A0%EB%B2%84%EC%A0%84%5D&text=%EC%9C%84%20%EB%A7%81%ED%81%AC%EC%97%90%20%EC%A0%91%EC%86%8D%ED%95%B4%EC%84%9C,exe%ED%8C%8C%EC%9D%BC%EC%9D%84%20%EB%8B%A4%EC%9A%B4%EB%B0%9B%EC%8A%B5%EB%8B%88%EB%8B%A4.&text=%EB%8B%A4%EC%9A%B4%EB%B0%9B%EC%9D%80%20exe%20%ED%8C%8C%EC%9D%BC%EC%9D%84%20%EC%8B%A4%ED%96%89%ED%95%B4%EC%84%9C%20%EC%84%A4%EC%B9%98%EB%A5%BC%20%EC%8B%9C%EC%9E%91%ED%95%A9%EB%8B%88%EB%8B%A4.
+
+이클립스 초기환경 설정
+
+window
+general
+workspace
+other utf-8
+main 밑에 java, resources 폴더
+
+genral
+java
+compiler
+Complier compliance lever 11 인거 확인
+
+web > 
+css files utf-8
+html files utf-8
+jsp files utf-8
+
+installed jres
+1.6, 1.8, 11 세 개가 현업에서 많이 씀
+디폴트 11로 ㄱ ㄱ
+
++++ Dynamic Web Project
+Dynamic web module_version ->  4.0보다 3.1 현업에서 많이 씀
+마지막 단계에서 web.xml 자동 generate하는거 체크하고 finish
+
+JavaSE-1.7을 JavaSE-11로
+프로젝트 우클릭 > Properties  > Project Facets > Java Version을 11로 변경하고 Apply Close
+
+web.xml에서 welcome-file-list 태그 안에서 http://localhost/HelloWeb/라고 url을 치면 처음으로 보여줄 파일 고르기
+(* 이때 'HelloWeb'을 Context path라고 함)
+
+============= web3.1 dtd ================
+--- web.xml ---
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+</web-app>
+
+--- web.xml ---
+============= web3.1 dtd ================
+
+form.jsp > tomcat 구동 원리
+
+C:\DV\apache-tomcat-9.0.64\work\Catalina\localhost\HelloWeb\org\apache\jsp
+idex_jsp파일 확인,
+톰캣의 카탈리나가 jsp를 html 언어로 바꿔서 out.write 해준다
+
+톰캣의 구조: app(dwp), server.xml(톰캣 환경, 특성), web.xml(app의 특성)
+내가 갖고있는 web.xml은 톰캣의 web.xml을 상속받고 내 dwp의 정보를 담음 뭔소리지
+
+DWP 디렉토리 구조
+webapp
+- webinf
+   - lib
+   - web.xml
+- index.jsp
+
+개발자에게 root는 webapp,
+서버측에게 root는 HelloWeb(프로젝트 명 그 자체)
+
+
++++ Maven
+
+main 밑에 java 폴더, resources 폴더 생성
+
+web-inf 밑에 lib 폴더 생성(생략 가능, 필요하면 이클립스가 자동으로 만들어 줌)
+
+> webinf 밑에 web.xml에 3.1에 맞는 거 붙이기
+
+> webapp 밑에 pom.xml 
+
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1">
+
+</web-app>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+</web-app>
+
+https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api/3.1.0
+<properties> 태그 안에서 두 버젼을 1.7 -> 11로 수정
+<dependencies> 태그 안의 <dependency>에 아래 내용 복사 붙여넣기
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->\
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+
+https://antop.tistory.com/entry/webxml-%EC%84%9C%EB%B8%94%EB%A6%BF-%EB%B2%84%EC%A0%84%EB%B3%84-DTD
+
+
+
+++++ 롬복 사용하기
+https://projectlombok.org/download
+다운로드에서 lombok.jar을 더블클릭해서 install,
+더블클릭했는데 알집 창이 뜨면 cmd로 강제 실행 ( C:\>java -jar lombok.jar )
+WEB-INF 밑에 lib 폴더 안에 붙여넣기
+
+../ 부모 디렉토리
+../../ 조부모 디렉토리
+
+++++ 웹 프로젝트의 구조
+▶/ 루트
+	▶WEB-INF
+		▶lib
+		▶web.xml
+	▶index.jsp
+ 
+++++ MVC 패턴
+
+웹브라우저 -> [request] -> Controller(Servlet) -> [요청을 분석, 적절한 Model을 찾아 수행시킴] -> Model -> [Model의 수행 결과 리턴] -> Controller(Servlet) -> [수행 결과 전달] -> View(jsp) -> [response] -> 웹브라우저
+
+++++ JSP 아키택처: jsp file(helloWorld.jsp) ->(java로 변환) -> java file(helloWorld_jsp.java) -> (컴파일) -> class file(helloWorld_jsp.class)
+
+++++ JSP 태그 종류, 지시자: <%@  %>, jsp 페이지 맨 상단에 위치
+
+++++ Request 객체 이해
+
+웹브라우저(클라이언트)에서 서버에 어떤 정보를 요청하면,
+서버에서는 자동으로 세 개의 객체를 생성함: request, response, session
+> request: 요청한 정보를 담는 객체
+	:request 관련 메소드: getContextPath(), getSession(), getRequestURL(), getParameter, 			   getParameterValues(), getParameterNames() ...
+> session: 요청한 클라이언트의 신원(?)을 저장
+> response: 처리 결과를 담아 html로 넘김
+
+++++ URL 이해
+== 예시
+https://search.naver.com/search.naver?where=nexearch&sm=top_sly.hst&fbm=1&acr=3&ie=utf8&query=%EB%8F%99%EC%84%B1%EB%A1%9C%ED%83%9C%EC%99%95%EC%95%84%EB%84%88%EC%8A%A4
+
+> url: http~끝까지
+> uri: /search.naver?where=nexearch&sm=top_sly.hst&fbm=1&acr=3&ie=utf8&query=%EB%8F%99%EC%84%B1%EB%A1%9C%ED%83%9C%EC%99%95%EC%95%84%EB%84%88%EC%8A%A4
+> contextPath: /search.naver
+
+++++ EL 표현식 ${}
+++++ 서블릿 본격적으로 살펴보기
+서블릿: 자바 언어를 사용하여 웹프로그램을 제작하는 것이다. 
+Sevlet interface < GenericServlet abstract < HttpSevlet
+WAS(Web Application Service) = 서블릿 컨테이너
+
+> url http://localhost/HelloWeb/HelloWorld
+> uri /HelloWeb/HelloWorld
+> contextPath /HelloWeb
+> 아래와 같은 doGet()에 의해
+> response.getWriter().append("Served at: ").append(request.getContextPath());
+> http://localhost/HelloWeb/HelloWorld 
+> 이런 식으로 서블릿을 호출하면 웹브라우저에
+> Served at: /HelloWeb
+> 라고 뜬다
+
+> 서블릿에서 아래 부분을 주석처리하면
+// @WebServlet("/HelloWorld")
+> 404 에러뜸
+> 어노테이션으로 서블릿을 호출하는 방법 대신
+> web.xml에서 서블릿을 호출하는 방법도 있다
+====== [ web.xml의 <web-app> 태그 안에 아래 두 개의 태그 추가 ] ======
+	<servlet>
+		<servlet-name>HelloWorld</servlet-name>
+		<servlet-class>co.edu.HelloWorld</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HelloWorld</servlet-name>
+		<url-pattern>/HelloWorld</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>HelloWorld</servlet-name>
+		<url-pattern>/HiWorld</url-pattern>
+	</servlet-mapping>
+===============================================================
+배포환경과 톰캣환경은 다르다
+▷ 배포
+eclipse 개발환경
+src/main/java <- java
+webapps -< jsp, css, js, image
+
+▷ tomcat 폴더 구성
+	/WEB-INF: 
+		classes, (src/main/java의 모든 클래스)
+		lib, (jar..) 
+		web.xml
+	/jsp
+▷ tomcat 폴더
+	bin: 실행 파일
+	logs: 로그파일
+	conf: 설정 파일(sever.xml 등. 참고로 server.xml에서 contextPath를 설정할 수 있다)
+
+★★★★ 이클립스 바깥에서 톰캣 통해 프로젝트 열기 두 가지 방식(배포하기)
+1. server.xml에서 ContextPath 직접 설정하기
+	<Context docBase="폴더경로" path="내가 정하고 싶은 도메인 이름 (ex: /Web)" reloadable="true"/>
+	<Context docBase="d:/HelloWeb" path="/Web" reloadable="true"/>
+	<Context docBase="d:/images" path="/images" reloadable="true"/>
+2. C:\DV\apache-tomcat-9.0.64\webapps 안에 war 파일 직접 넣기
+
+=> cmd
+cd C:\DV\apache-tomcat-9.0.64\bin>startup
+startup
+
+
+★★★★ 배포
+1. 
+
+
+
+
+
+
+
