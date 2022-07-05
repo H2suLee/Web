@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>도서정보</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="index_jquery_ver.js"></script>
+<style>
+div#box {
+	width: 900px;
+	margin: 0 auto;
+	border: 1px solid black;
+}
+
+form label {
+	display: inline-block;
+	width: 30%;
+	text-align: center;
+	background-color: rgb(225, 221, 221);
+}
+
+form>div>input[type="text"], input[type="number"] {
+	width: 60%;
+}
+
+div#form1 {
+	width: 80%;
+	float: left;
+}
+
+div#form2 {
+	width: 100px;
+	float: left;
+	margin: 0 auto;
+}
+
+div#form2>input {
+	width: 80px;
+	margin: 5px;
+	position: relative;
+	top: 20px;
+	left: 15px;
+}
+
+div#show {
+	clear: both;
+}
+
+div#show>table {
+	width: 100%;
+	padding: 5px;
+	text-align: center;
+	border: 1px solid black;
+}
+
+div#show thead {
+	background-color: darkgrey;
+}
+
+div#show>table th {
+	color: white;
+}
+
+div#show>table td {
+	border-top: 1px dotted black;
+	border-bottom: 1px dotted black;
+	padding: 5px;
+	margin: 30px;
+}
+</style>
+</head>
+
+<body>
+	<div id="box">
+		<form action="" name="bookForm">
+			<div id="form1">
+				<label for="code">도서코드</label> <input type="text" name="no"
+					id="code"><br> <label for="name">도서명</label> <input
+					type="text" name="name" id="name"><br> <label
+					for="writer">저자</label> <input type="text" name="writer"
+					id="writer"><br> <label for="publisher">출판사</label> <input
+					type="text" name="publisher" id="publisher"><br> <label
+					for="price">금액</label> <input type="number" name="price" id="price">
+			</div>
+			<div id="form2">
+				<input type="submit" value="저장"> <input type="button"
+					value="선택삭제" id="chkDel">
+			</div>
+
+		</form>
+		<br>
+		<div id="show">
+			<table>
+				<thead>
+					<tr>
+						<th><input type="checkbox" id="chkBox"></th>
+						<th>도서코드</th>
+						<th>도서명</th>
+						<th>저자</th>
+						<th>출판사</th>
+						<th>가격</th>
+						<th>삭제</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+</body>
+
+</html>

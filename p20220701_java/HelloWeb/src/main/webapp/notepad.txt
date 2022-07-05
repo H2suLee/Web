@@ -224,11 +224,6 @@ cd C:\DV\apache-tomcat-9.0.64\bin>startup
 startup
 
 
-★★★★ 배포
-1. 
-
-
-
 
 
 
