@@ -14,6 +14,8 @@
 
 </head>
 <body>
+	<jsp:include page="/WEB-INF/jsp/header.jsp"></jsp:include>
+
 	<h1>부서 목록</h1>
 	<a href="DeptInsert">부서 등록</a>
 

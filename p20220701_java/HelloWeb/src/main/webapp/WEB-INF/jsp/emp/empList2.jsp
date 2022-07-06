@@ -13,9 +13,11 @@
 
 </head>
 <body>
+	<jsp:include page="/WEB-INF/jsp/header.jsp"></jsp:include>
+
 	<h1>사원 목록</h1>
 	<a href="empInsert">사원 등록</a>
-	
+
 	<form>
 		부서번호 <input name="departmentId">
 		<button>검색</button>
@@ -36,14 +38,12 @@
 			<!-- for(EmpVO : list) -->
 			<c:forEach var="vo" items="${list}">
 				<tr>
-					<th>
-					<a href="empUpdate?no="${vo.employeeId}">${vo.employeeId}</a>
-					</th>
-					<th>${vo.lastName}</th>
+					<th>${vo.employeeId}</th>
+					<th><a href="empUpdate?no=${vo.employeeId}">${vo.lastName}</a></th>
 					<th>${vo.email}</th>
 					<th>${vo.hireDate}</th>
 					<th>${vo.jobId}</th>
-					
+
 				</tr>
 			</c:forEach>
 		</tbody>

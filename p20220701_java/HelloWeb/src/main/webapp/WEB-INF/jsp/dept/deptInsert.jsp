@@ -18,6 +18,8 @@
 
 </head>
 <body>
+	<jsp:include page="/WEB-INF/jsp/header.jsp"></jsp:include>
+
 	<h1>부서 등록</h1>
 
 	<form action="DeptInsert" name="deptForm" method="post">

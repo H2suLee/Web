@@ -137,13 +137,26 @@ public class EmpDAO extends DAO {
 
 		try {
 			getConnect();
-			String sql = "insert into employees (employee_id, last_name, email, hire_date, job_id) values (?,?,?,?,?)";
-			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, vo.getEmployeeId());
-			psmt.setString(2, vo.getLastName());
-			psmt.setString(3, vo.getEmail());
-			psmt.setString(4, vo.getHireDate());
-			psmt.setString(5, vo.getJobId());
+			// 방법 1 수기 입력
+			// String sql = "insert into employees (employee_id, last_name, email, hire_date, job_id) values (?,?,?,?,?)";
+			// 방법 2 시퀀스나 서브쿼리 이용
+			String sql = "insert into employees (employee_id, last_name, email, hire_date, job_id) values ((select max(employee_id)+1 from employees),?,?,?,?)";
+
+			// 방법 1
+			/*
+			 * psmt = conn.prepareStatement(sql); 
+			 * psmt.setString(1, vo.getEmployeeId());
+			 * psmt.setString(2, vo.getLastName()); psmt.setString(3, vo.getEmail());
+			 * psmt.setString(4, vo.getHireDate()); psmt.setString(5, vo.getJobId());
+			 */
+			// 방법2
+			psmt = conn.prepareStatement(sql); 
+			 
+			psmt.setString(1, vo.getLastName());
+			psmt.setString(2, vo.getEmail());
+			psmt.setString(3, vo.getHireDate());
+			psmt.setString(4, vo.getJobId());
+
 			cnt = psmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -156,12 +169,39 @@ public class EmpDAO extends DAO {
 	// 수정
 	public int update(EmpVO vo) {
 		int cnt = 0;
+		try {
+			getConnect();
+			String sql = "update employees set last_name=?, email=?, hire_date=?, job_id=?, department_id=? where employee_id=?";
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, vo.getLastName());
+			psmt.setString(2, vo.getEmail());
+			psmt.setString(3, vo.getHireDate());
+			psmt.setString(4, vo.getJobId());
+			psmt.setString(5, vo.getDepartmentId());
+			psmt.setString(6, vo.getEmployeeId());
+			cnt = psmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
 		return cnt;
 	}
 
 	// 삭제
-	public int delete(EmpVO vo) {
+	public int delete(String id) {
 		int cnt = 0;
+		getConnect();
+		String sql = "delete employees where employee_id=?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			cnt = psmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
 		return cnt;
 	}
 }

@@ -27,6 +27,9 @@ public class EmpUpdateServ extends HttpServlet {
 		String empId = req.getParameter("no");
 
 		req.setAttribute("emp", dao.selectOne(empId));
+		req.setAttribute("jobs", dao.selectJobsAll());
+		req.setAttribute("depts", new DeptDAO().selectDeptAll());
+		
 		req.getRequestDispatcher("/WEB-INF/jsp/emp/empUpdate.jsp").forward(req, resp);
 	}
 
@@ -39,7 +42,8 @@ public class EmpUpdateServ extends HttpServlet {
 		String name = req.getParameter("name");
 		String email = req.getParameter("email");
 		String date = req.getParameter("date");
-		String jobId = req.getParameter("job");
+		String jobId = req.getParameter("jobId");
+		String deptId = req.getParameter("deptId");
 
 		EmpVO vo = new EmpVO();
 
@@ -48,12 +52,13 @@ public class EmpUpdateServ extends HttpServlet {
 		vo.setEmail(email);
 		vo.setHireDate(date);
 		vo.setJobId(jobId);
+		vo.setDepartmentId(deptId);
 
 		EmpDAO dao = new EmpDAO();
 		int cnt = dao.update(vo);
 
-		// resp.getWriter().append(id).append(name).append(cnt + "건이 등록됨");
-		req.getRequestDispatcher("empList").forward(req, resp);
+		resp.getWriter().append(id).append(name).append(cnt + "건이 수정됨");
+		// req.getRequestDispatcher("empList").forward(req, resp);
 
 	}
 

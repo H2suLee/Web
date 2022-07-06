@@ -73,16 +73,71 @@ form label {
 	<form action="empUpdate" name="empForm" method="post"
 		onsubmit="return validateForm()">
 		<label for="no">사원번호</label> <input type="number" name="no" id="no"
-			value="<%=emp.getEmployeeId()%>"><br> <label for="name">사원이름</label>
-		<input type="text" name="name" id="name"
+			value="<%=emp.getEmployeeId()%>" readonly><br> <label
+			for="name">사원이름</label> <input type="text" name="name" id="name"
 			value="<%=emp.getLastName()%>"><br> <label for="email">이메일</label>
 		<input type="text" name="email" id="email" value="<%=emp.getEmail()%>"><br>
 		<label for="date">입사일</label> <input type="date" name="date" id="date"
-			value="<%=emp.getHireDate()%>"><br> <label for="job">직무번호</label>
-		<input type="text" name="email" id="email" value="<%=emp.getJobId()%>"><br>
-		<label>부서번호</label> <input type="text" name="name" id="name"
-			value="<%=emp.getDepartmentId()%>"><br>
+			value="<%=emp.getHireDate().substring(0, 10)%>"><br>
+
+
+
+		<!-- teacher version -->
+		<label for="job">담당직무</label> <select name="job" id="job">
+			<%
+			ArrayList<JobsVO> list = (ArrayList<JobsVO>) request.getAttribute("jobs");
+			for (JobsVO vo : list) {
+			%>
+			<option name="jobId" value="<%=vo.getJobId()%>"
+				<%if (vo.getJobId().equals(emp.getJobId())) {%> selected <%}%>><%=vo.getJobTitle()%></option>
+			<%
+			}
+			%>
+		</select> <br>
+
+		<!-- jstl version -->
+		<!-- 
+		
+		<c:forEach var="job" items="${jobs}">
+		<c:if test="vo.getJobId==emp.getJobId()">checked="checked"</c:if>
+		<option value=${job.jobId}>${job.jobTitle}</option>
+		</c:forEach>
+		
+		 -->
+
+
+		<!-- my version -->
+		<br> <label>소속부서 </label>
+
+		<%
+		ArrayList<DeptVO> list3 = (ArrayList<DeptVO>) request.getAttribute("depts");
+		for (DeptVO vo3 : list3) {
+			if (emp.getDepartmentId() != null && emp.getDepartmentId().equals(vo3.getDeptId())) {
+		%>
+		<input type="radio" name="deptId" value="<%=vo3.getDeptId()%>"
+			checked>
+		<%=vo3.getDeptName()%>
+		<%
+		} else
+		%>
+		<input type="radio" name="deptId" value="<%=vo3.getDeptId()%>"><%=vo3.getDeptName()%>
+		<%
+		}
+		%>
+
+
+		<br>
 		<button>수정</button>
-		<br> <br>
+		<br>
+		<button type="button" onclick="empDelFnc()">삭제</button>
+	</form>
+	<script>
+
+	function empDelFnc(){
+		location.href="EmpDeleteServ?no=<%=emp.getEmployeeId()%>"
+		
+		}
+	</script>
+	<br>
 </body>
 </html>

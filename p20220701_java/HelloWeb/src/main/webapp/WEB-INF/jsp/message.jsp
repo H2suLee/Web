@@ -4,15 +4,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>message</title>
+<style>
+div{
+background-color: cyan;
+font-size:30px;
+}
+</style>
 </head>
 <body>
-<!-- <%@ include file="/WEB-INF/jsp/header.jsp" %> -->
 <jsp:include page="/WEB-INF/jsp/header.jsp"></jsp:include>
-
-<div align="center">
-	<h1>Welcome to My Home</h1>
-</div>
-
+<script>
+<%-- alert('<%=request.getAttribute("msg") %>');
+location.href="empList"; --%>
+</script>
 </body>
 </html>

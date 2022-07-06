@@ -25,11 +25,11 @@ form label {
 <script>
 	function validateForm() {
 		//if(window.document.forms["empForm"]["no"])
-		if (window.document.empForm.no.value == "") {
+/* 		if (window.document.empForm.no.value == "") {
 			alert("사원번호 입력");
 			empForm.no.focus();
 			return false;
-		}
+		} */
 		if (window.document.empForm.name.value == "") {
 			alert("사원이름 입력");
 			empForm.name.focus();
@@ -64,28 +64,41 @@ form label {
 
 </head>
 <body>
+	<jsp:include page="/WEB-INF/jsp/header.jsp"></jsp:include>
+
 	<h1>사원 등록</h1>
-	<%
-	EmpVO emp = (EmpVO) request.getAttribute("emp");
-	%>
-	<form action="empUpdate" name="empForm" method="post"
+	<form action="empInsert" name="empForm" method="post"
 		onsubmit="return validateForm()">
-		<label for="no">사원번호</label> <input type="number" name="no" id="no"
-			value="<%=emp.getEmployeeId()%>"><br> <label for="name">사원이름</label>
+		<label for="no">사원번호</label> <input type="number" name="no" id="no" readonly><br>
+		<label for="name">사원이름</label> <input type="text" name="name"
+			id="name"><br> <label for="email">이메일</label> <input
+			type="text" name="email" id="email"><br> <label
+			for="date">입사일</label> <input type="date" name="date" id="date"><br>
+		<label for="job">담당직무</label> <select name="job" id="job">
+			<%
+			ArrayList<JobsVO> list = (ArrayList<JobsVO>) request.getAttribute("jobs");
+			for (JobsVO vo : list) {
+				;
+			%>
+			<option value="<%=vo.getJobId()%>"><%=vo.getJobTitle()%></option>
+			<%
+			}
+			%>
+		</select> <br> <label>소속부서</label>
+		
 
-		<input type="text" name="name" id="name"
-			value="<%=emp.getLastName()%>"><br> <label for="email">이메일</label>
-
-		<input type="text" name="email" id="email" value="<%=emp.getEmail()%>"><br>
-		<label for="date">입사일</label> <input type="date" name="date" id="date"
-			value="<%=emp.getHireDate()%>"><br> <label for="job">직무번호</label>
-		<select name="job" id="job">
-
-			<option value="<%=emp.getJobId()%>"><%=emp.getJobId()%></option>
-
-		</select> <br> <label>부서번호</label> <input type="radio" name="deptId"
-			value="<%=emp.getDepartmentId()%>"> <br>
-		<button>사원등록</button>
+		
+		<%
+		ArrayList<DeptVO> list2 = (ArrayList<DeptVO>) request.getAttribute("depts");
+		for (DeptVO vo2 : list2) {
+			
+		%>
+		<input type="radio" name="deptId" value="<%=vo2.getDeptId()%>"><%=vo2.getDeptName()%>
+		<%
+		}
+		%>
+		<br>
+		<button>등록</button>
 		<br>
 	</form>
 	<br>

@@ -32,7 +32,7 @@ public class EmpInsertServ extends HttpServlet {
 		resp.setContentType("text/html; charset=UTF-8");
 		req.setCharacterEncoding("UTF-8");
 
-		String id = req.getParameter("no");
+		//String id = req.getParameter("no");
 		String name = req.getParameter("name");
 		String email = req.getParameter("email");
 		String date = req.getParameter("date");
@@ -40,7 +40,7 @@ public class EmpInsertServ extends HttpServlet {
 
 		EmpVO vo = new EmpVO();
 
-		vo.setEmployeeId(id);
+		//vo.setEmployeeId(id);
 		vo.setLastName(name);
 		vo.setEmail(email);
 		vo.setHireDate(date);
@@ -48,9 +48,18 @@ public class EmpInsertServ extends HttpServlet {
 
 		EmpDAO dao = new EmpDAO();
 		int cnt = dao.insert(vo);
-
+		
+		// 결과 출력
 		// resp.getWriter().append(id).append(name).append(cnt + "건이 등록됨");
-		req.getRequestDispatcher("empList").forward(req, resp);
+		
+		// getRequestDispatcher 에서는 결과가 안나옴, 서블릿 주소가 empInsert로 유지
+		// 같은 웹페이지에서 새로고침한 느낌
+		// req.getRequestDispatcher("empList").forward(req, resp);
+		
+		// sendRedirect는 empInsert 요청하고 empInsert의 응답에 따라 empList로 direct
+		resp.sendRedirect("empList");
+		
+		// 다른 페이지(서블릿)로 가려면 sendDirect()
 
 	}
 
