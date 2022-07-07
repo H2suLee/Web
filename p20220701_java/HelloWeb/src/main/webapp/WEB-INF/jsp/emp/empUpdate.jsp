@@ -6,7 +6,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!-- ★ jstl ★ -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +24,6 @@ form label {
 
 <script>
 	function validateForm() {
-		//if(window.document.forms["empForm"]["no"])
 		if (window.document.empForm.no.value == "") {
 			alert("사원번호 입력");
 			empForm.no.focus();
@@ -64,69 +63,40 @@ form label {
 
 </head>
 <body>
+
 	<h1>사원 수정</h1>
-
-
+	
 	<%
 	EmpVO emp = (EmpVO) request.getAttribute("emp");
 	%>
+
+	<!-- 주석에 el 태그 있으면 이딴 오류남: Encountered " "}" "} "" at line 1, column 3. -->
+	
 	<form action="empUpdate" name="empForm" method="post"
 		onsubmit="return validateForm()">
-		<label for="no">사원번호</label> <input type="number" name="no" id="no"
-			value="<%=emp.getEmployeeId()%>" readonly><br> <label
-			for="name">사원이름</label> <input type="text" name="name" id="name"
-			value="<%=emp.getLastName()%>"><br> <label for="email">이메일</label>
-		<input type="text" name="email" id="email" value="<%=emp.getEmail()%>"><br>
-		<label for="date">입사일</label> <input type="date" name="date" id="date"
-			value="<%=emp.getHireDate().substring(0, 10)%>"><br>
-
-
-
-		<!-- teacher version -->
-		<label for="job">담당직무</label> <select name="job" id="job">
-			<%
-			ArrayList<JobsVO> list = (ArrayList<JobsVO>) request.getAttribute("jobs");
-			for (JobsVO vo : list) {
-			%>
-			<option name="jobId" value="<%=vo.getJobId()%>"
-				<%if (vo.getJobId().equals(emp.getJobId())) {%> selected <%}%>><%=vo.getJobTitle()%></option>
-			<%
-			}
-			%>
-		</select> <br>
-
-		<!-- jstl version -->
-		<!-- 
+		<label for="no">사원번호</label> 
+		<input type="number" name="no" id="no"	value="${ emp.getEmployeeId() }" readonly><br> 
+		<label	for="name">사원이름</label> 
+		<input type="text" name="name" id="name" value="${ emp.getLastName() }"><br> 
+		<label for="email">이메일</label>
+		<input type="text" name="email" id="email" value="${ emp.getEmail() }"><br>
+		<label for="date">입사일</label>
+		<input type="date" name="date" id="date" value="${emp.getHireDate().substring(0,10)}"><br> 
 		
-		<c:forEach var="job" items="${jobs}">
-		<c:if test="vo.getJobId==emp.getJobId()">checked="checked"</c:if>
-		<option value=${job.jobId}>${job.jobTitle}</option>
+		<label for="dept">소속부서</label>
+		<c:forEach var="dept" items="${depts}">
+			<input id="dept" type="radio" name="deptId" value="${dept.getDeptId()}"
+				<c:if test="${dept.getDeptId() == emp.getDepartmentId()}"> checked </c:if>>${dept.getDeptName()}
 		</c:forEach>
-		
-		 -->
-
-
-		<!-- my version -->
-		<br> <label>소속부서 </label>
-
-		<%
-		ArrayList<DeptVO> list3 = (ArrayList<DeptVO>) request.getAttribute("depts");
-		for (DeptVO vo3 : list3) {
-			if (emp.getDepartmentId() != null && emp.getDepartmentId().equals(vo3.getDeptId())) {
-		%>
-		<input type="radio" name="deptId" value="<%=vo3.getDeptId()%>"
-			checked>
-		<%=vo3.getDeptName()%>
-		<%
-		} else
-		%>
-		<input type="radio" name="deptId" value="<%=vo3.getDeptId()%>"><%=vo3.getDeptName()%>
-		<%
-		}
-		%>
-
-
 		<br>
+		<label for="job">담당직무</label>
+		<select name="jobId" id="job">
+			<c:forEach var="job" items="${jobs}">
+				<option value="${job.jobId}" 
+				<c:if test="${job.jobId == emp.jobId}"> selected </c:if>>${job.jobTitle}</option>
+			</c:forEach>
+		</select> <br>
+		
 		<button>수정</button>
 		<br>
 		<button type="button" onclick="empDelFnc()">삭제</button>
@@ -135,8 +105,8 @@ form label {
 
 	function empDelFnc(){
 		location.href="EmpDeleteServ?no=<%=emp.getEmployeeId()%>"
-		
-		}
+		} 
+ 
 	</script>
 	<br>
 </body>

@@ -22,13 +22,14 @@ public class DAO {
 	}
 
 	public void disconnect() {
-		if (conn != null) {
+		// 전통적으로는 open한 순서대로 close해야됨
+		// rs.close() => psmt.close() => conn.close() 가 맞는 순서
+		if (rs != null) {
 			try {
-				conn.close();
-
+				rs.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
-			} // null 일 경우에 close 해버리면 nullpointer 예외 뜸
+			}
 		}
 		if (psmt != null) {
 			try {
@@ -37,12 +38,13 @@ public class DAO {
 				e.printStackTrace();
 			}
 		}
-		if (rs != null) {
+		if (conn != null) {
 			try {
-				rs.close();
+				conn.close();
+
 			} catch (SQLException e) {
 				e.printStackTrace();
-			}
+			} // null 일 경우에 close 해버리면 nullpointer 예외 뜸
 		}
 	}
 }

@@ -85,9 +85,7 @@ form label {
 			}
 			%>
 		</select> <br> <label>소속부서</label>
-		
-
-		
+				
 		<%
 		ArrayList<DeptVO> list2 = (ArrayList<DeptVO>) request.getAttribute("depts");
 		for (DeptVO vo2 : list2) {

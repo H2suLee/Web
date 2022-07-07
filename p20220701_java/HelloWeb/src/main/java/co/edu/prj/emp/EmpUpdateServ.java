@@ -57,9 +57,11 @@ public class EmpUpdateServ extends HttpServlet {
 		EmpDAO dao = new EmpDAO();
 		int cnt = dao.update(vo);
 
-		resp.getWriter().append(id).append(name).append(cnt + "건이 수정됨");
-		// req.getRequestDispatcher("empList").forward(req, resp);
+		//resp.getWriter().append(id).append(name).append(cnt + "건이 수정됨");
+		
 
+		resp.getWriter().append("<script>").append("alert('" + cnt + "건 수정 완료');").append("location.href='empList';")
+				.append("</script>");
 	}
 
 }
