@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>My memberForm</title>
+</head>
+<body>
+	<form action="MemberServlet" method="get">
+		<input type="hidden" name="cmd" value="select"> <input
+			type="submit" value="조회">
+	</form>
+	<!-- http://localhost/p220626/MemberServlet?cmd=select -->
+	<hr>
+	<form action="MemberServlet" method="get">
+		<input type="hidden" name="cmd" value="insert"> 이름: <input
+			type="text" name="name"><br> 연락처: <input type="text"
+			name="phone"><br> 주소: <input type="text" name="addr">
+		<br>
+		<input type="submit" value="삽입">
+	</form>
+	<!-- http://localhost/p220626/MemberServlet?cmd=insert&name=%EC%9F%88%EB%8B%88&phone=010-7777&addr=%EC%84%9C%EC%9A%B8%EC%8B%9C+%EA%B0%95%EB%82%A8%EA%B5%AC -->
+	<hr>
+	<form action="MemberServlet" method="get">
+		<input type="hidden" name="cmd" value="update"> 번호: <input
+			type="number" name="no"><br>이름: <input type="text"
+			name="name"><br> 연락처: <input type="text" name="phone"><br>
+		주소: <input type="text" name="addr"><br> <input
+			type="submit" value="갱신">
+	</form>
+	<!-- http://localhost/p220626/MemberServlet?cmd=update&no=100&name=%EC%B4%88%ED%8C%8C%EB%A6%AC&phone=010-0000&addr=%EB%8C%80%EA%B5%AC%EC%8B%9C+%EC%88%98%EC%84%B1%EA%B5%AC -->
+	<hr>
+	<form action="MemberServlet" method="get">
+		<input type="hidden" name="cmd" value="delete"> 번호: <input
+			type="number" name="no"><br>
+		<input type="submit" value="삭제">
+	</form>
+	<!-- http://localhost/p220626/MemberServlet?cmd=delete&no=11 -->
+</body>
+</html>

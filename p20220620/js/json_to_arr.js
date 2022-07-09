@@ -18,7 +18,7 @@ let data = `
 // 문자열-> 오브젝트
 let objAry = JSON.parse(data);
 console.log(objAry);
-
+// 키만 추출하는 것도 있나?
 // 값만 추출
 data = {value: 13,value2: 12,value3: 1,value4: 111,value5: 2354};
 let valueOnly = Object.values(data);

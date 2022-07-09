@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+		google.charts.load("current", {
+			packages: ["corechart"]
+		});
+		//google.charts.setOnLoadCallback(drawChart);
+		// 이놈이 여기있으면 fetch와 drawChart() 중 작업이 먼저 끝나는 게 먼저 실행돼서 
+		// fetch보다 drawChart()에서 작업이 먼저 끝나면 데이터를 못 받아와서 차트가 안 뜰 수도 있음
+		// 순차적으로 실행시키기 위해 이놈을 fetch 안으로
+
+		// ChartServlet을 실행하면 JSON 형태의 문자열을 리턴받음
+		// {"Administration":1,"Executive":3,"Sales":3,"Accounting":2,"IT":3,"Shipping":5,"Marketing":2}
+		// 이를 fetch를 통해 다차원 배열로 가공해서 drawChart() 함수의 data에 담아주어야
+		
+		let fromChartServlet = [];
+		fromChartServlet.push(['부서정보', '부서별인원'])
+		fetch('ChartServlet')
+			.then(result => result.json())
+			.then(result => {
+				console.log('1st result: ', result); // object 타입
+				// {} => [[String, Integer], [String, Interger]...]
+				// 오브젝트에서 key: result
+				// 오브젝트에서 value: result[field]
+				
+				/* for (let field in result) {
+					fromChartServlet.push([field, result[field]]);
+				} */
+				
+				// 다른 방식
+
+				for (let field in result) {
+					let arr = [];
+					arr.push(field);
+					arr.push(result[field]);
+					fromChartServlet.push(arr);
+				}
+				//console.log('2nd result: ', arr);
+				google.charts.setOnLoadCallback(drawChart);
+			})
+
+		function drawChart() {
+			var data = google.visualization.arrayToDataTable([
+				['Task', 'Hours per Day'],
+				['Work', 11],
+				['Eat', 2],
+				['Commute', 2],
+				['Watch TV', 2],
+				['Sleep', 7]
+			]);
+
+			data = google.visualization.arrayToDataTable(fromChartServlet);
+
+			var options = {
+				title: 'My Daily Activities',
+				is3D: true,
+			};
+
+			var chart = new google.visualization.PieChart(document
+				.getElementById('piechart_3d'));
+			chart.draw(data, options);
+		}
+	</script>
+</head>
+
+<body>
+	<div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+</body>
+
+</html>
