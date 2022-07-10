@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+	<meta charset="utf-8">
+	<title>속성 선택자</title>
+	<style>
+		ul {
+			list-style: none;
+		}
+
+		li {
+			display: inline-block;
+			margin: 10px;
+		}
+
+		li a {
+			padding: 5px 20px;
+			font-size: 14px;
+			color: blue;
+			text-decoration: none;
+		}
+
+		.flat {
+			background: blue;
+			color: white;
+		}
+
+		[class|="flat"] {
+			border: 2px solid black;
+			box-shadow: rgba(0, 0, 0, 0.4) 5px 5px;
+			/* 436px; */
+			/* class *= "flat": flat이라는 단어가 포함되어 있기만 하면*/
+			/* class ^= "flat": flat으로 시작할 때 - 붙든 말든/
+			/* class $= "flat": flat이라는 단어로 끝이 나면 */
+			/* class |= "flat": flat이거나 flat-*/
+			/* class~= "button": 클래스 이름에 button이라는 이름이 포함되어 있으면. 근데 분리되어 있어야지 - 이딴거 붙으면 안 됨*/
+			/* class="button": 클래스 이름이 button이면 */
+		}
+	</style>
+</head>
+
+<body>
+	<ul>
+		<li><a href="#" class="button">메뉴 1</a></li>
+		<li><a href="#" class="flat">메뉴 2</a></li>
+		<li><a href="#" class="button flat">메뉴 3</a></li>
+		<li><a href="#" class="flat button">메뉴 4</a></li>
+		<li><a href="#" class="flat-button">메뉴 5</a></li> <!-- flat-button을 한 단어로 취급하여 스타일 적용 안 됨-->
+
+	</ul>
+</body>
+
+</html>

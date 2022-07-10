@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #bg{
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: auto;
+            height: auto;
+            min-width: 100%; /*화면에 꽉참*/
+            min-height: 100%;
+            z-index: -100; /*맨 아래로*/
+            background: url(images/flame.jpg) left top no-repeat;
+            background-size: cover;
+        }
+        #container{
+            position: relative;
+            text-align: center;
+            margin-top: 30%;
+            margin-left: 30%;
+        }
+    </style>
+</head>
+<body>
+    <video id="bg" src="media/flame.mp4" autoplay loop muted poster="images/flame.jpg"></video>
+    <div id="container">
+        <h2>사람을 구체적으로 도와주는 책</h2>
+        <h1>이지스퍼블리싱</h1>
+    </div>
+</body>
+</html>
