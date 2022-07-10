@@ -51,14 +51,14 @@ console.log(result);
 
 result = result.map(val => val); // [1,2,3,4]
 result = result.filter(val => {
-    // if (val % 2 == 0) {
-    //     return val;
-    // }
-    return val % 2 == 0;
+    if (val % 2 == 0) {
+        return val;
+    }
+    // return val % 2 == 0;
 });
 console.log(result); // [10, 2,4]
 
-// console.clear();
+console.clear();
 
 // 초기값이 ''
 result = ['Apple', 'Banana', 'Cherry'].reduce((accum, curr, idx, ary) => {
@@ -67,7 +67,7 @@ result = ['Apple', 'Banana', 'Cherry'].reduce((accum, curr, idx, ary) => {
     //     accum = '<ul>'
     // }
     accum += `<li>${curr}</li>`;
-    console.log(accum);
+    // console.log(accum);
     if (idx == ary.length - 1) {
         accum += '</ul>';
     }
@@ -75,6 +75,23 @@ result = ['Apple', 'Banana', 'Cherry'].reduce((accum, curr, idx, ary) => {
 }, '<ul>');
 console.log(result);
 document.write(result);
+
+result = ['Apple', 'Banana', 'Cherry'].reduce((accum, curr, idx, ary) => {
+    if (idx == 0) {
+        accum += '<table border=1><thead><tr><th>과일</th></tr></thead>';
+    }
+    accum += '<tr>'
+    accum += `<td>${curr}</td>`
+    accum += '</tr>'
+    if (idx == ary.length - 1) {
+        accum += '</table>';
+    }
+    return accum;
+}, '');
+console.log(result);
+document.write(result);
+
+
 
 result = ['Apple', 'Banana', 'Cherry'].reduce((accum, curr, idx, ary) => {
     console.log(curr);
@@ -85,7 +102,7 @@ console.log(result); // AppleBananaCherry
 
 // max 값 구하기
 result = [3, 2, 4, 1, 5].reduce((accum, curr) => {
-    console.log(`accum : ${accum} || curr: ${curr}`)
+    // console.log(`accum : ${accum} || curr: ${curr}`)
     // 내가 한 거
     // if (accum < curr) {
     //     console.log(accum, curr)
@@ -100,11 +117,11 @@ result = [3, 2, 4, 1, 5].reduce((accum, curr) => {
     return accum;
 }, 0);
 
-console.log(result);
+console.log(`최대값: ${result}`);
 
 // 합 구하기
 result = [3, 2, 4, 1, 5].reduce((accum, curr) => {
-    console.log(`accum : ${accum} || curr: ${curr}`)
+    // console.log(`accum : ${accum} || curr: ${curr}`)
     return accum + curr;
 }, 0);
 
@@ -112,7 +129,7 @@ console.log('총합: ' + result); // 15
 
 // 평균 구하기
 result = [3, 2, 4, 1, 5].reduce((accum, curr, idx, ary) => {
-    console.log(`accum : ${accum} || curr: ${curr} || idx: ${idx} || ary.length: ${ary.length}`)
+    // console.log(`accum : ${accum} || curr: ${curr} || idx: ${idx} || ary.length: ${ary.length}`)
     if (ary.length - 1 == idx) {
         accum += curr
         return accum / ary.length;
@@ -124,10 +141,45 @@ console.log('평균: ' + result); // 3
 
 // reduce를 사용해서, 프롬프트에 성별(Male or Female)을 입력하면
 // 그에 맞는 배열요소만 표로 출력해 주는 프로그램
-console.clear();
+// console.clear();
 console.log(objAry);
 
 let gender = prompt('Male or Female');
+<<<<<<< HEAD
+=======
+
+result = objAry.reduce((acc, curr, idx, ary) => {
+    // console.log(`accum : ${acc} || curr: ${curr.id} || idx: ${idx} || ary.length: ${ary.length}`)
+
+    if (idx == 0) {
+        acc += '<table border=1><thead><tr>'; //<thead><tr><th>과일</th></tr></thead>
+
+        for (let field in curr) { // field는 key
+            acc += `<th>${field}</th>`
+        }
+        acc += '</tr></thead>';
+    }
+    acc += '<tr>'
+
+    for (let field in curr) {
+        if (curr.gender == gender) {
+            acc += `<td>${curr[field]}</td>`; // curr.field or curr[field]는 value
+        }
+    }
+    acc += '</tr>'
+    if (idx == ary.length - 1) {
+        acc += '</table>';
+    }
+    return acc;
+
+}, '');
+
+document.write('<br><br>');
+console.log(result);
+document.write(result);
+document.write('<br><br>');
+
+>>>>>>> ec7b9eac03679c6683694f20c8d2b1df73096ca9
 let resultTable = objAry.reduce((acc, curr, idx, ary) => {
     // console.log(`accum : ${acc} || curr: ${curr} || idx: ${idx} || ary.length: ${ary.length}`)
     acc += '<tr>';
