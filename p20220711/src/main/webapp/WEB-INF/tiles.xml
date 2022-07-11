@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+       <!-- 문서 형식 정의(Document Type Definition, DTD) -->
+       <!-- DTD가 있어야 노드들을 사용할 수 있다 -->
+       
+<tiles-definitions>
+  <definition name="myapp.homepage" template="/WEB-INF/view/layouts/layout.jsp">
+    <put-attribute name="title" value="My homepage" />
+    <put-attribute name="header" value="/WEB-INF/view/layouts/header.jsp" />
+    <put-attribute name="menu" value="/WEB-INF/view/layouts/menu.jsp"/>
+    <put-attribute name="body" value="" /> <!-- body의 value는 바깥에서 넣어줘야 하기 때문에 비워둘 것 -->
+    <put-attribute name="footer" value="/WEB-INF/view/layouts/footer.jsp" />
+  </definition>
+  <definition name="WILDCARD:*/*" extends="myapp.homepage"> <!-- 예 main/main -->
+  	<put-attribute name="body" value="/WEB-INF/view/{1}/{2}.jsp"></put-attribute>
+  </definition>
+</tiles-definitions>
+
+<!-- 다운로드 파일         : http://archive.apache.org/dist/tiles/ -->
+<!-- (환경설정) Tiles.xml : https://tiles.apache.org/framework/tutorial/basic/pages.html -->
+<!-- (환경설정) web.xml   : https://tiles.apache.org/framework/config-reference.html -->
+
+<!-- maven repository: Tiles Extras, 3.0.8 dependency 긁어오기 -->
+<!-- lib에 tiles-jsp-3.0.8.jar 파일 넣기 -->
+
