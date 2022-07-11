@@ -86,18 +86,13 @@ function chkDelFnc() {
 	let ifChecked = $('#show > table > tbody > tr > td > input');
 	console.log(ifChecked);
 
-	ifChecked.filter((idx, elem) => {
-		return elem.checked
-	}).forEach(elem => {
-		let delNo = elem.parentElement.parentElement.getAttribute('id'); //$(elem).parent().parent().attr('id');
+	let arr = ifChecked.filter((idx, elem) => elem.checked);
+	console.log("arr: ", arr);
+	
+	for(let i =0; i<arr.length;i++){
+		let delNo = $(arr[i]).parent().parent().attr('id'); //$(elem).parent().parent().attr('id');
 		delFetch(delNo);
-	});
-
-	/*
-	ifChecked.forEach(elem => {
-		let delNo = $(elem).parent().parent().attr('id');
-		delFetch(delNo);
-	});*/
+	}
 }
 
 // deleteFetch

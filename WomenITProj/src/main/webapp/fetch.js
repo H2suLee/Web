@@ -82,12 +82,16 @@ function insertTr(e) {
 		})
 
 	// 폼 인풋 초기화
-	this.no.value = '';
+	/*this.no.value = '';
 	this.name.value = '';
 	this.writer.value = '';
 	this.publisher.value = '';
 	this.price.value = '';
-
+	*/
+	
+	for(let i =0; i<5;i++){
+		this[i].value='';
+	}
 }
 
 // deleteBook
