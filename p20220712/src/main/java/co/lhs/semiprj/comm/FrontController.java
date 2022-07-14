@@ -1,4 +1,4 @@
-package co.edu.newMaven.comm;
+package co.lhs.semiprj.comm;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/*import co.lhs.semiprj.MainCommand;
+import co.lhs.semiprj.MainCommand;
 import co.lhs.semiprj.member.command.AjaxMemberIdCheck;
 import co.lhs.semiprj.member.command.KakaoLogin;
 import co.lhs.semiprj.member.command.MemberJoin;
@@ -19,9 +19,9 @@ import co.lhs.semiprj.member.command.MemberJoinForm;
 import co.lhs.semiprj.member.command.MemberList;
 import co.lhs.semiprj.member.command.MemberLogin;
 import co.lhs.semiprj.member.command.MemberLoginForm;
-import co.lhs.semiprj.member.command.MemberLogout;*/
+import co.lhs.semiprj.member.command.MemberLogout;
 
-//@WebServlet("*.do") // 모든 .do 요청은 이 서블릿이 처리함 (확장자 패턴)
+@WebServlet("*.do") // 모든 .do 요청은 이 서블릿이 처리함 (확장자 패턴)
 public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private HashMap<String, Command> map = new HashMap<>();

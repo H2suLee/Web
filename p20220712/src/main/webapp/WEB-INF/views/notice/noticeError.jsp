@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-h2
+<h1>${message }</h1>
+<a href="main.do">홈</a>
 </body>
 </html>

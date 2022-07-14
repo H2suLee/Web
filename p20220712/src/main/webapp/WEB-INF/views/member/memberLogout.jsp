@@ -4,9 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Member Logout</title>
 </head>
 <body>
-h2
+<h1>${message }</h1>
+<a href="main.do">홈</a>
 </body>
 </html>

@@ -6,15 +6,15 @@
        <!-- DTD가 있어야 노드들을 사용할 수 있다 -->
        
 <tiles-definitions>
-  <definition name="myapp.homepage" template="/WEB-INF/view/layouts/layout.jsp">
+  <definition name="myapp.homepage" template="/WEB-INF/views/layouts/layout.jsp">
     <put-attribute name="title" value="My homepage" />
-    <put-attribute name="header" value="/WEB-INF/view/layouts/header.jsp" />
-    <put-attribute name="menu" value="/WEB-INF/view/layouts/menu.jsp"/>
+    <put-attribute name="header" value="/WEB-INF/views/layouts/header.jsp" />
+    <put-attribute name="menu" value="/WEB-INF/views/layouts/menu.jsp"/>
     <put-attribute name="body" value="" /> <!-- body의 value는 바깥에서 넣어줘야 하기 때문에 비워둘 것 -->
-    <put-attribute name="footer" value="/WEB-INF/view/layouts/footer.jsp" />
+    <put-attribute name="footer" value="/WEB-INF/views/layouts/footer.jsp" />
   </definition>
   <definition name="WILDCARD:*/*" extends="myapp.homepage"> <!-- 예 main/main -->
-  	<put-attribute name="body" value="/WEB-INF/view/{1}/{2}.jsp"></put-attribute>
+  	<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp"></put-attribute>
   </definition>
 </tiles-definitions>
 
