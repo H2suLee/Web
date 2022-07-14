@@ -13,13 +13,12 @@
 		<div>게시글 목록</div>
 		<div>
 			<form action="" id="frm" name="frm">
-			<select id="key" name="key">
-			<option value="notice_title">제목</option>
-			<option value="notice_content">내용</option>
-			<option value="notice_writer">작성자</option>
-			</select> &nbsp;
-			<input type="text" id="val" name="val"> &nbsp; &nbsp;
-			<input type="button" value="검색" onclick="noticeSearch()">
+				<select id="key" name="key">
+					<option value="notice_title">제목</option>
+					<option value="notice_content">내용</option>
+					<option value="notice_writer">작성자</option>
+				</select> &nbsp; <input type="text" id="val" name="val"> &nbsp;
+				&nbsp; <input type="button" value="검색" onclick="noticeSearch()">
 			</form>
 		</div>
 		<div>
@@ -55,34 +54,57 @@
 					</c:choose>
 				</tbody>
 			</table>
-		</div><br>
+		</div>
+		<br>
 		<div>
 			<button type="button" onclick="location.href='noticeInsertForm.do'">글쓰기</button>
 		</div>
 	</div>
-	
+
 	<script type="text/javascript">
-		function noticeSearch(){
+		function noticeSearch() {
 			let key = $('#key').val();
 			console.log(key); // notice_title
-			
+
 			let val = $('#val').val();
 			console.log(val); // 1
 			
+			fetch("ajaxNoticeSearchList.do",{
+				
+			})
+			
 			// ajax function call
 			$.ajax({
-				url: 'ajaxNoticeSearchList',
-				method: 'post',
+				url : "ajaxNoticeSearchList.do",
+				type : "post",
 				//contentType: 'application/x-www-form-urlencoded',
-				data: {key : key, val : val},
-				dataType: 'json',
-				success: function(result){
+				data : {key : key, val : val},
+				dataType : "json",
+				success : function(result) {
 					console.log(result);
+					if(result.length>0){
+					jsonHtmlConvert(result);
+					}
 				},
-				error: function(error) {
+				error : function(error) {
 					alert('처리 중 오류 발생!');
 				}
 			});
+		}
+
+		function jsonHtmlConvert(result) {
+			$("tbody").remove();
+			var tbody = $("<tbody />")
+			$.each(data, function(idx, item) {
+				var row = $("<tr />").append($("<td />").text(item.noticeId),
+						$("<td />").text(item.noticeWriter),
+						$("<td />").text(item.noticeTitle),
+						$("<td />").text(item.noticeDate),
+						$("<td />").text(item.noticeHit),
+						$("<td />").text(item.noticeAttacg))
+				tbody.append(row);		
+			})
+			$("table").append(tbody);
 		}
 	</script>
 

@@ -56,7 +56,7 @@ public class FrontController extends HttpServlet {
 		map.put("/noticeList.do", new NoticeList());
 		map.put("/noticeInsertForm.do", new NoticeInsertForm());
 		map.put("/noticeInsert.do", new NoticeInsert());
-		map.put("/ajaxNoticeSearchList", new AjaxNoticeSearchList());		
+		map.put("/ajaxNoticeSearchList.do", new AjaxNoticeSearchList());		
 
 	}
 	
@@ -75,7 +75,7 @@ public class FrontController extends HttpServlet {
 			System.out.println("page:" +page); // /main.do
 		// 실제 수행할 Command를 찾음. 
 		Command command = map.get(page); // map.get(page) 가 구현 객체가 됨 = new MainCommand();
-		
+			System.out.println("command:" +page);
 		// 구현한 결과를 String으로 받음 
 		String viewPage = command.exec(req, resp);
 			System.out.println("viewPage: " + viewPage); // main/main

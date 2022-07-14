@@ -18,6 +18,7 @@ public class AjaxNoticeSearchList implements Command {
 
 	@Override
 	public String exec(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("????????");
 		// 게시글 검색
 		NoticeService dao = new NoticeServiceImpl();
 		List<NoticeVO> list = new ArrayList<>();
@@ -27,14 +28,15 @@ public class AjaxNoticeSearchList implements Command {
 		ObjectMapper mapper = new ObjectMapper();
 		String key = request.getParameter("key");
 		String val = request.getParameter("val");
+		System.out.println(key + " " + val);
 		list = dao.noticeSearchList(key, val);
 		String jsonList = null;
 		try {
 			jsonList = mapper.writeValueAsString(list);
 		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "ajax:" + jsonList;
 	}
-
 }
