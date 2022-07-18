@@ -22,16 +22,20 @@ public class MemberLogin implements Command {
 		vo.setMemberPw(request.getParameter("memberPw"));
 		vo = dao.memberLogin(vo);
 		
-		if(vo.getMemberName() != null) {
+		if(vo.getMemberNickname() != null) {
 			// session 객체에 아이디, 이름, 권한, 메시지를 담아 전역적으로 쓰일 수 있도록
+			session.setAttribute("no", vo.getMemberNo());
 			session.setAttribute("id", vo.getMemberId());
-			session.setAttribute("name", vo.getMemberName());
+			session.setAttribute("nickname", vo.getMemberNickname());
+			session.setAttribute("email", vo.getMemberEmail());
+			session.setAttribute("img", vo.getMemberImg());
 			session.setAttribute("auth", vo.getMemberAuth());
-			session.setAttribute("message", "환영합니다, " + vo.getMemberName() + "님!");
+			session.setAttribute("git", vo.getMemberGit());
+			request.setAttribute("message", "환영합니다, " + vo.getMemberNickname() + "님!");
 		} else {
 			request.setAttribute("message", "아이디 또는 패스워드가 일치하지 않습니다.");
 		}
-		return "main/main";
+		return "member/memberLogin";
 	}
 
 }

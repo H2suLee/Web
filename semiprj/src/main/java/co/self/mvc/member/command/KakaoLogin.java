@@ -24,18 +24,18 @@ public class KakaoLogin implements Command {
 		vo.setMemberId(request.getParameter("id"));
 		vo.setMemberPw(request.getParameter("pw"));
 		vo = memberDAO.memberLogin(vo);
-		
-		System.out.println(vo.getMemberId() + "::" + vo.getMemberPw() + "::" + vo.getMemberName() + "::" + vo.getMemberAuth());
-		
-	
-		if (vo.getMemberName() != null) {
+			
+		if (vo.getMemberNickname() != null) {
 			// 세션 객체에 담음, 세션은 전역적으로 쓰임
+			session.setAttribute("no", vo.getMemberNo());
 			session.setAttribute("id", vo.getMemberId());
+			session.setAttribute("nickname", vo.getMemberNickname());
+			session.setAttribute("email", vo.getMemberEmail());
+			session.setAttribute("img", vo.getMemberImg());
 			session.setAttribute("auth", vo.getMemberAuth());
-			session.setAttribute("name", vo.getMemberName());
-
-			// 넘겨줄 페이지에 담음
-			request.setAttribute("message", "Welcome to this page, " + vo.getMemberName() + " !");
+			session.setAttribute("git", vo.getMemberGit());
+			request.setAttribute("message", "환영합니다, " + vo.getMemberNickname() + "님!");
+			
 			return "ajax:ok";
 		} else {
 			request.setAttribute("message", "아이디 또는  패스워드가 일치하지 않습니다.");

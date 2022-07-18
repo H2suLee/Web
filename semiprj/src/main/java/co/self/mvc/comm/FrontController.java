@@ -13,13 +13,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import co.self.mvc.MainCommand;
 import co.self.mvc.member.command.AjaxMemberIdCheck;
+import co.self.mvc.member.command.AjaxMemberNicknameCheck;
+import co.self.mvc.member.command.KakaoJoin;
 import co.self.mvc.member.command.KakaoLogin;
 import co.self.mvc.member.command.MemberJoin;
+import co.self.mvc.member.command.MemberJoinExtra;
 import co.self.mvc.member.command.MemberJoinForm;
+import co.self.mvc.member.command.MemberJoinout;
 import co.self.mvc.member.command.MemberLogin;
 import co.self.mvc.member.command.MemberLoginForm;
 import co.self.mvc.member.command.MemberLogout;
 import co.self.mvc.member.command.MemberSelect;
+import co.self.mvc.member.command.MemberUpdate;
+import co.self.mvc.member.command.MemberUpdateSubmit;
+import co.self.mvc.member.command.MyPage;
 
 @WebServlet("*.do") 
 // .do로 들어오는 모든 요청을 처리
@@ -47,9 +54,18 @@ public class FrontController extends HttpServlet {
 		map.put("/memberJoinForm.do", new MemberJoinForm());
 		map.put("/memberJoin.do", new MemberJoin());
 		map.put("/ajaxMemberIdCheck.do", new AjaxMemberIdCheck());
+		map.put("/ajaxMemberNicknameCheck.do", new AjaxMemberNicknameCheck());
 		
 		map.put("/KakaoLogin.do", new KakaoLogin());
+		map.put("/KakaoJoin.do", new KakaoJoin());
+		
+		map.put("/memberJoinExtra.do", new MemberJoinExtra());
 
+		map.put("/myPage.do", new MyPage());
+		map.put("/memberUpdate.do", new MemberUpdate());
+		map.put("/memberUpdateSubmit.do", new MemberUpdateSubmit());
+		map.put("/memberJoinout.do", new MemberJoinout());
+		
 	}
 	
 	@Override
@@ -57,9 +73,9 @@ public class FrontController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		String uri = request.getRequestURI();
-			System.out.println("uri: " + uri);
+			//System.out.println("uri: " + uri);
 		String contextPath = request.getContextPath();
-			System.out.println("conPath: " + contextPath);
+			//System.out.println("conPath: " + contextPath);
 		String page = uri.substring(contextPath.length());
 			System.out.println("page: " + page); // /main.do
 		

@@ -8,7 +8,7 @@ import co.self.mvc.member.service.MemberService;
 import co.self.mvc.member.serviceImpl.MemberServiceImpl;
 import co.self.mvc.member.vo.MemberVO;
 
-public class MemberJoin implements Command {
+public class KakaoJoin implements Command {
 
 	@Override
 	public String exec(HttpServletRequest request, HttpServletResponse response) {
@@ -21,14 +21,17 @@ public class MemberJoin implements Command {
 		vo.setMemberAuth("user");
 		vo.setMemberImg(request.getParameter("memberImg"));
 		vo.setMemberGit(request.getParameter("memberGit"));
-		
+
 		int n = dao.memberInsert(vo);
-		if(n != 0) {
+
+		if (n != 0) {
 			request.setAttribute("message", "회원가입이 정상적으로 처리되었습니다.");
-		}else {
+			return "ajax:ok";
+		} else {
 			request.setAttribute("message", "회원가입 실패!");
+			return "ajax:not ok";
 		}
-		return "member/memberJoin";
+
 	}
 
 }

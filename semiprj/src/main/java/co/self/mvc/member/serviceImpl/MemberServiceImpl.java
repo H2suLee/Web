@@ -34,7 +34,7 @@ public class MemberServiceImpl implements MemberService {
 				vo = new MemberVO();
 				vo.setMemberId(rs.getString("member_id"));
 				vo.setMemberPw(rs.getString("member_pw"));
-				vo.setMemberName(rs.getString("member_name"));
+				// vo.setMemberName(rs.getString("member_name"));
 				vo.setMemberAuth(rs.getString("member_auth"));
 				list.add(vo);
 			}
@@ -47,24 +47,52 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public MemberVO memberSelectOne() {
-		// TODO Auto-generated method stub
-		return null;
+	public MemberVO memberSelectOne(String id) {
+		MemberVO vo = null;
+		String sql = "SELECT * FROM MEMBER WHERE MEMBER_ID=?";
+
+		try {
+			conn = dao.getConnection();
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+
+			if (rs.next()) {
+				vo = new MemberVO();
+				vo.setMemberId(rs.getString("member_id"));
+				vo.setMemberPw(rs.getString("member_pw"));
+				vo.setMemberNickname(rs.getString("member_nickname"));
+				vo.setMemberEmail(rs.getString("member_email"));
+				vo.setMemberImg(rs.getString("member_img"));
+				vo.setMemberAuth(rs.getString("member_auth"));
+				vo.setMemberGit(rs.getString("member_git"));
+				vo.setMemberNo(rs.getInt("member_no"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return vo;
 	}
 
 	@Override
 	public int memberInsert(MemberVO vo) {
 		int cnt = 0;
-		String sql = "insert into member values (?,?,?,?)";
+		String sql = "insert into member values (?,?,?,?,?,?,?, (select max(member_no)+1 from member))";
 
 		try {
 			conn = dao.getConnection();
 			psmt = conn.prepareStatement(sql);
+
 			psmt.setString(1, vo.getMemberId());
 			psmt.setString(2, vo.getMemberPw());
-			psmt.setString(3, vo.getMemberName());
-			psmt.setString(4, vo.getMemberAuth());
-			
+			psmt.setString(3, vo.getMemberNickname());
+			psmt.setString(4, vo.getMemberEmail());
+			psmt.setString(5, vo.getMemberImg());
+			psmt.setString(6, vo.getMemberAuth());
+			psmt.setString(7, vo.getMemberGit());
+
 			cnt = psmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -76,14 +104,41 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int memberUpdate(MemberVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		int cnt = 0;
+		String sql = "update member set member_img=?, member_nickname=?, member_email=?, member_git=?  where member_id=?";
+		conn = dao.getConnection();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, vo.getMemberImg());
+			psmt.setString(2, vo.getMemberNickname());
+			psmt.setString(3, vo.getMemberEmail());
+			psmt.setString(4, vo.getMemberGit());
+			psmt.setString(5, vo.getMemberId());
+			cnt = psmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return cnt;
 	}
 
 	@Override
-	public int memberDelete(MemberVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int memberDelete(String id) {
+		int cnt = 0;
+		String sql = "delete member where member_id=?";
+		conn = dao.getConnection();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			cnt = psmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+
+		return cnt;
 	}
 
 	@Override
@@ -93,6 +148,25 @@ public class MemberServiceImpl implements MemberService {
 			conn = dao.getConnection();
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+			if (!rs.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isMemberNickname(String nickname) {
+		String sql = "SELECT MEMBER_NICKNAME FROM MEMBER WHERE MEMBER_NICKNAME=?";
+		try {
+			conn = dao.getConnection();
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, nickname);
 			rs = psmt.executeQuery();
 			if (!rs.next()) {
 				return true;
@@ -119,8 +193,12 @@ public class MemberServiceImpl implements MemberService {
 				vo = new MemberVO();
 				vo.setMemberId(rs.getString("member_id"));
 				vo.setMemberPw(rs.getString("member_pw"));
-				vo.setMemberName(rs.getString("member_name"));
+				vo.setMemberNickname(rs.getString("member_nickname"));
+				vo.setMemberEmail(rs.getString("member_email"));
+				vo.setMemberImg(rs.getString("member_img"));
 				vo.setMemberAuth(rs.getString("member_auth"));
+				vo.setMemberGit(rs.getString("member_git"));
+				vo.setMemberNo(rs.getInt("member_no"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

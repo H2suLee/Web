@@ -28,12 +28,15 @@
 			</div>
 		</c:if>
 
+		<a href="main.do" onclick="disconnectKakao()">카카오 끊기 안되네..</a>
 		<c:if test="${not empty id }">
 			<div>
 				<h3>
-					<!-- 만약 카카오로 로그인이 되어있으면  -->
-					<input type="button" name="logout" id="logout" value="로그아웃" onclick="Logout()">
-					<a href="memberLogout.do" onclick="KakaoLogout()">로그아웃</a>
+					<input type="button" name="logout" id="logout" value="로그아웃"
+						onclick="Logout()">
+
+					<input type="button" name="myInfo" id="myInfo" value="마이페이지"
+						onclick="location.href='myPage.do'">
 				</h3>
 			</div>
 		</c:if>
@@ -48,25 +51,30 @@
 		</c:if>
 	</div>
 	<script>
-	
-	function Logout(){
-		Kakao.init("2a2d3b75fcf2829f4ecf48caa95d3805");
-		if(Kakao.Auth.getAccessToken()){
-			Kakao.Auth.logout(function() {
-		    	alert('로그아웃 성공!');
-		    	location.href = 'memberLogout.do'; // 로그아웃 처리
+		function Logout() {
+			Kakao.init("2a2d3b75fcf2829f4ecf48caa95d3805");
+			if (Kakao.Auth.getAccessToken()) {
+				Kakao.Auth.logout(function() {
+					alert('로그아웃 성공!');
+					//disconnectKakao();
+					location.href = 'memberLogout.do'; // 로그아웃 처리
+				});
+			}
+			location.href = 'memberLogout.do';
+		}
+		// 안되노
+		function disconnectKakao() {
+			Kakao.API.request({
+				url : '/v1/user/unlink',
+				success : function(response) {
+					console.log(response);
+				},
+				fail : function(error) {
+					console.log(error);
+				},
 			});
 		}
-		location.href = 'memberLogout.do';
-	}
-	/* function KakaoLogout(){
-		function kakaoLogout() {
-		     if (!Kakao.Auth.getAccessToken()) {
-		      alert('로그인을 해주세요.');
-		      return
-		    } 
-		}
-	} */
+
 	</script>
 </body>
 </html>
