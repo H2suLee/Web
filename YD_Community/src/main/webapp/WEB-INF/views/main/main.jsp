@@ -36,7 +36,7 @@
 						onclick="Logout()">
 
 					<input type="button" name="myInfo" id="myInfo" value="마이페이지"
-						onclick="location.href='myPage.do'">
+						onclick="location.href='myPage.do?no=${member.memberNo}'">
 				</h3>
 			</div>
 		</c:if>

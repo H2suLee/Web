@@ -10,34 +10,33 @@ import java.util.List;
 import com.team.prj.common.DataSource;
 import com.team.prj.member.vo.MemberVO;
 
-
 public class MemberServiceImpl implements MemberService {
 	private DataSource dao = DataSource.getInstance();
 	private Connection conn;
 	private PreparedStatement psmt;
 	private ResultSet rs;
-	
+
 	@Override
 	public List<MemberVO> memberSelectList() {
 		// 전체멤버 목록
-		List<MemberVO> list = new ArrayList<MemberVO>();  //결과담을 객체
+		List<MemberVO> list = new ArrayList<MemberVO>(); // 결과담을 객체
 		MemberVO vo;
 		String sql = "SELECT * FROM MEMBER";
 		try {
 			conn = dao.getConnection();
 			psmt = conn.prepareStatement(sql);
 			rs = psmt.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				vo = new MemberVO();
 				vo.setMemberId(rs.getString("member_id"));
-	//			vo.setMemberPassword(rs.getString("member_password"));
+				// vo.setMemberPassword(rs.getString("member_password"));
 				vo.setMemberNick(rs.getString("member_nick"));
 				vo.setMemberAuthor(rs.getString("member_author"));
 				list.add(vo);
 			}
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close();
 		}
 		return list;
@@ -45,26 +44,26 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public MemberVO memberSelectOne(MemberVO vo) {
-		//한명 조회
+		// 한명 조회
 		String sql = "SELECT * FROM MEMBER WHERE MEMBER_ID = ?";
 		try {
 			conn = dao.getConnection();
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, vo.getMemberId());
 			rs = psmt.executeQuery();
-			if(rs.next()) {
+			if (rs.next()) {
 				vo.setMemberId(rs.getString("member_id"));
-				//vo.setMemberPw(rs.getString("member_pw"));
+				// vo.setMemberPw(rs.getString("member_pw"));
 				vo.setMemberNick(rs.getString("member_nick"));
 				vo.setMemberEmail(rs.getString("member_email"));
-				//vo.setMemberImg(rs.getString("member_img"));
+				// vo.setMemberImg(rs.getString("member_img"));
 				vo.setMemberAuthor(rs.getString("member_author"));
 				vo.setMemberGit(rs.getString("member_git"));
 				vo.setMemberNo(rs.getInt("member_no"));
 			}
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close();
 		}
 		return vo;
@@ -78,7 +77,7 @@ public class MemberServiceImpl implements MemberService {
 		try {
 			conn = dao.getConnection();
 			psmt = conn.prepareStatement(sql);
-			
+
 			psmt.setString(1, vo.getMemberId());
 			psmt.setString(2, vo.getMemberPw());
 			psmt.setString(3, vo.getMemberNick());
@@ -88,9 +87,9 @@ public class MemberServiceImpl implements MemberService {
 			psmt.setString(6, vo.getMemberGit());
 
 			n = psmt.executeUpdate();
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close();
 		}
 		return n;
@@ -104,15 +103,15 @@ public class MemberServiceImpl implements MemberService {
 		conn = dao.getConnection();
 		try {
 			psmt = conn.prepareStatement(sql);
-			//psmt.setString(1, vo.getMemberImg());
+			// psmt.setString(1, vo.getMemberImg());
 			psmt.setString(1, vo.getMemberNick());
 			psmt.setString(2, vo.getMemberEmail());
 			psmt.setString(3, vo.getMemberGit());
 			psmt.setString(4, vo.getMemberId());
 			n = psmt.executeUpdate();
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close();
 		}
 		return n;
@@ -128,9 +127,9 @@ public class MemberServiceImpl implements MemberService {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, vo.getMemberId());
 			n = psmt.executeUpdate();
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close();
 		}
 		return n;
@@ -154,7 +153,7 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean isMemberNickname(String nickname) {
 		String sql = "SELECT MEMBER_NICK FROM MEMBER WHERE MEMBER_NICK=?";
@@ -190,7 +189,7 @@ public class MemberServiceImpl implements MemberService {
 				vo.setMemberPw(rs.getString("member_pw"));
 				vo.setMemberNick(rs.getString("member_nick"));
 				vo.setMemberEmail(rs.getString("member_email"));
-				//vo.setMemberImg(rs.getString("member_img"));
+				// vo.setMemberImg(rs.getString("member_img"));
 				vo.setMemberAuthor(rs.getString("member_author"));
 				vo.setMemberGit(rs.getString("member_git"));
 				vo.setMemberNo(rs.getInt("member_no"));
@@ -202,15 +201,39 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return vo;
 	}
-	
+
+	@Override
+	public String searchMemberNick(int no) {
+		String memberNick = null;
+		String sql = "SELECT member_nick FROM MEMBER WHERE MEMBER_no=?";
+
+		try {
+			conn = dao.getConnection();
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, no);
+			rs = psmt.executeQuery();
+			if (rs.next()) {
+				memberNick = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return memberNick;
+	}
+
 	private void close() {
 		try {
-			if(rs != null) rs.close();
-			if(psmt != null) psmt.close();
-			if(conn != null) conn.close();
-		}catch(SQLException e) {
+			if (rs != null)
+				rs.close();
+			if (psmt != null)
+				psmt.close();
+			if (conn != null)
+				conn.close();
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 
 }
