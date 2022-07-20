@@ -28,6 +28,7 @@ import com.team.prj.board.command.QnaBoardForm;
 
 import com.team.prj.board.command.QnaBoardList;
 import com.team.prj.board.command.TotalBoardList;
+import com.team.prj.comments.command.CommentInsert;
 import com.team.prj.manager.command.ManagerBoardDelete;
 import com.team.prj.manager.command.ManagerBoardList;
 import com.team.prj.manager.command.ManagerMemberDelete;
@@ -152,6 +153,10 @@ public class FrontController extends HttpServlet {
 		map.put("/memberUpdate.do", new MemberUpdate());
 		map.put("/memberUpdateSubmit.do", new MemberUpdateSubmit());
 		map.put("/memberJoinout.do", new MemberJoinout());
+		
+		
+		// 댓글
+		map.put("/commentInsert.do", new CommentInsert());
 	}
 	
 	protected void service(HttpServletRequest request, HttpServletResponse response)
