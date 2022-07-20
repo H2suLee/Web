@@ -13,7 +13,7 @@ import com.team.prj.manager.service.ManagerService;
 import com.team.prj.manager.service.ManagerServiceImpl;
 import com.team.prj.member.vo.MemberVO;
 
-public class MemberSearchList implements Command {
+public class ManagerMemberSearch implements Command {
 
 	@Override
 	public String exec(HttpServletRequest request, HttpServletResponse response) {
@@ -24,7 +24,7 @@ public class MemberSearchList implements Command {
 		String key = request.getParameter("key");
 		String val = request.getParameter("val");
 		
-		list = managerDao.memberSearchList(key, val);
+		list = managerDao.managerMemberSearch(key, val);
 		String jsonList = null;
 		try {
 			jsonList = mapper.writeValueAsString(list);

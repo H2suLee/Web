@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<div>
+		<input type="text" id="Xword" name="Xword">
+		<input type="submit" value="저장">
+	</div>
 </body>
 </html>

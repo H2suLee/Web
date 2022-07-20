@@ -24,7 +24,7 @@
 							<c:when test="${not empty vo}">
 								<input type="hidden" name="board_no" value="${vo.boardNo}">
 								<tr>
-									<td>${vo.boardWriter }</td>
+									<td><a href="myPage.do?no=${vo.memberNo}">${vo.boardWriter }</a></td>
 									<td>${vo.boardScrap }</td>
 									<td>${vo.boardRecommend }</td>
 									<td>${vo.boardHit }</td>
@@ -83,7 +83,7 @@
 			if (result) {
 				var form = document.writeFrm;
 				form.method = "post";
-				form.action = "boardUpdate.do";
+				form.action = "boardUpdateForm.do";
 				form.submit();
 			}
 		}

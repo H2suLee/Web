@@ -60,7 +60,7 @@
 							<c:forEach items="${qnaboardlist }" var="b">
 								<tr>
 									<td>${b.boardNo }</td>
-									<td>${b.boardWriter }</td>
+									<td><a href="myPage.do?no=${b.memberNo}">${b.boardWriter }</a></td>
 									<td><a href="boardView.do?board_no=${b.boardNo}">${b.boardTitle }</a></td>
 									<td>${b.boardDate }</td>
 									<td>${b.boardAttech }</td>
@@ -84,7 +84,7 @@
 
 		<!-- 글쓰기 버튼 -->
 		<div>
-			<button type="button" onclick="location.href='qnaBoardForm.do'">글쓰기</button>
+			<button type="button" onclick="location.href='boardForm.do'">글쓰기</button>
 		</div>
 	</div>
 	

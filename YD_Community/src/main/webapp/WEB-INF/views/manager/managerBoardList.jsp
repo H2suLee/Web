@@ -5,16 +5,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>금지어 관리</title>
+<title>게시판 관리</title>
 </head>
 <body>
 	<div align="center">
-		<div>금지어 목록</div>
+		<div>게시판 목록</div>
 	</div>
-	<div align="center">
+	<div>
 	<form id="frm">
-		<input type="text" id="xword" name="xword">&nbsp;
-		<input type="button" id="val" name="val" value="검색" onclick="XwordSearch()">
+		<select id="key" name="key">
+			<option value="board_category">게시판</option>
+			<option value="board_title">제목</option>
+			<option value="board_writer">작성자</option>
+		</select>&nbsp;
+		<input type="text" id="val" name="val">&nbsp;
+		<input type="button" value="검색" onclick="boardSearch()">
 	</form>
 	</div>
 	<div align="center">
@@ -22,20 +27,24 @@
 		<thead>
 			<tr>
 				<th><input type="checkbox"></th>
-				<th>NO</th>
-				<th>금지어</th>
+				<th>게시판</th>
+				<th>게시글 제목</th>
+				<th>작성자</th>
+				<th>작성일자</th>
+				<th>글 삭제</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:choose>
 				<c:when test="${not empty list }">
-					<c:forEach items="${list }" var="x">
+					<c:forEach items="${list }" var="b">
 						<tr>
-							<td><input type="checkbox"></td>
-							<td>${x.xwordNo }</td>
-							<td>${x.xword }</td>
-							<td><input type="button" value="수정" onclick="XwordUpdate(${x.xwordNo })"></td>
-							<td><input type="button" value="삭제" onclick="XwordDelete(${x.xwordNo })"></td>
+							<td><input id="check" name="check" type="checkbox"></td>
+							<td id="boardCategory" name="boardCategory">${b.boardCategory }</td>
+							<td id="boardTitle" name="boardTitle">${b.boardTitle }</td>
+							<td id="boardWriter" name="boardWriter">${b.boardWriter }</td>
+							<td id="boardDate">${b.boardDate }</td>
+							<td><input type="button" value="삭제" onclick="boardDelete(this)"></td>
 						</tr>
 					</c:forEach>
 				</c:when>
@@ -49,16 +58,16 @@
 			</c:choose>
 		</tbody>
 	</table>
-	<input type="button" value="추가" onclick="XwordInsert()">
 	<input type="button" value="선택삭제" onclick="deleteValue()">
 	</div>
 	<script type="text/javascript">
-		function XwordSearch() {
+		function boardSearch() { //게시판 검색
+			let key = $("#key").val();
 			let val = $("#val").val();
 			$.ajax({
-				url : "XwordSearchList.do",
+				url : "managerBoardSearch.do",
 				type : "post",
-				data : {val : val},
+				data : {key : key, val : val},
 				dataType : "json",
 				success : function(result){
 					if(result.length > 0) {
@@ -72,16 +81,18 @@
 				}
 			});
 		}
-		function jsonHtmlConvert(data) {
+		
+		function jsonHtmlConvert(data) { //새로 불러오기
 			$('tbody').remove();
 			var tbody = $("<tbody />");
 			$.each(data, function(index, item){
 				var row = $("<tr />").append(
 							$("<td />").append($("<input>").attr('type','checkbox')),
-							$("<td />").text(item.xwordNo),
-							$("<td />").text(item.xword),
-							$("<td />").append($("<button onclick=XwordUpdate(this) />").text("수정")),
-							$("<td />").append($("<button onclick=XwordDelete(this) />").text("삭제"))
+							$("<td />").text(item.boardCategory),
+							$("<td />").text(item.boardTitle),
+							$("<td />").text(item.boardWriter),
+							$("<td />").text(item.boardDate),
+							$("<td />").append($("<button onclick=boardDelete(this) />").text("삭제"))
 						);
 				tbody.append(row);
 			});
@@ -92,37 +103,9 @@
 			console.log('error : '+err.message);
 		}
 		
-		function XwordInsert(){
-			window.open("XwordInsertForm.do","팝업 테스트","width=400, height=300, top=10, left=10");
-		}
-		
-		function XwordUpdate(no) { //금지어 수정
-			let val = $(no);
-			$.ajax({
-				url : "xwordUpdate.do",
-				type : "post",
-				data : {no : no},
-				dataType : "json",
-				success : function(result){
-					if(result.length > 0) {
-						jsonHtmlConvert(result);
-					}else {
-						alert("검색한 결과가 없습니다.");
-					}
-				},
-				error : function(error){
-					alert("ERROR!")
-				}
-			});
-		}
-		
-		function XwordDelete(obj){ //금지어 삭제
-			let row = $(obj).parent().parent().get(0);
-			let td = row.cells[1];
-			let no = $(td).html();
-			
+		function boardDelete(id){ //게시판 삭제
 			const xhr = new XMLHttpRequest();
-			const url = "XwordDelete.do?xwordNo="+no;
+			const url = "managerBoardDelete.d?boardNo="+id;
 			console.log(url)
 			xhr.onload = function(){
 				if(xhr.status >=200 && xhr.status <300){

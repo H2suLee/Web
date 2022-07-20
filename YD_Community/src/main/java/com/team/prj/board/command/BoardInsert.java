@@ -1,9 +1,6 @@
 package com.team.prj.board.command;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +12,8 @@ import com.team.prj.board.serviceImpl.BoardServiceImpl;
 import com.team.prj.board.vo.BoardVO;
 import com.team.prj.common.Command;
 
-public class NoticeBoardInsert implements Command {
+
+public class BoardInsert implements Command {
 
 	@Override
 	public String exec(HttpServletRequest request, HttpServletResponse response) {
@@ -39,12 +37,7 @@ public class NoticeBoardInsert implements Command {
 			vo.setBoardAttech(multi.getParameter("boardAttech"));
 			vo.setBoardAttechDir(multi.getParameter("boardAttechDir"));
 			vo.setBoardWriter(multi.getParameter("boardWriter"));
-			vo.setBoardDate(multi.getParameter("boardDate")); 
 			vo.setBoardCategory(multi.getParameter("boardCategory"));
-			vo.setBoardHot(multi.getParameter("boardHot"));
-			vo.setBoardScrap(Integer.parseInt(multi.getParameter("boardScrap")));   
-			vo.setBoardHit(Integer.parseInt(multi.getParameter("boardHit")));     
-			vo.setBoardRecommend(Integer.parseInt(multi.getParameter("boardRecommend")));
 			vo.setMemberNo(Integer.parseInt(multi.getParameter("MemberNo")));  
 			
 			if (orignalFileName != null) {
@@ -60,14 +53,25 @@ public class NoticeBoardInsert implements Command {
 		String returnPage = null;
 		if (n != 0) {
 			request.setAttribute("message", "게시글 등록에 성공했습니다.");
-			returnPage = "noticeBoardList.do";
+			String category = vo.getBoardCategory();
+			
+			if (category.equals("자유")) {
+				System.out.println(category);
+				returnPage = "freeBoardList.do";		
+			} else if (category.equals("QnA")) {
+				System.out.println(category);
+				returnPage = "qnaBoardList.do";
+			}  else if (category.equals("공지")) {
+				System.out.println(category);
+				returnPage = "noticeBoardList.do";
+			}
 		} else {
 			request.setAttribute("message", "게시글 등록을 실패했습니다.");
 			returnPage = "board/boardError";
 		}
 		return returnPage;
-				
-				
+
+			
 	}
 
 }

@@ -1,8 +1,5 @@
 package com.team.prj.manager.command;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,15 +8,19 @@ import com.team.prj.manager.service.ManagerService;
 import com.team.prj.manager.service.ManagerServiceImpl;
 import com.team.prj.member.vo.MemberVO;
 
-public class MemberList implements Command {
+public class ManagerMemberDelete implements Command {
 
 	@Override
 	public String exec(HttpServletRequest request, HttpServletResponse response) {
-		//회원 목록 가져오기
+		//회원 삭제
 		ManagerService managerDao = new ManagerServiceImpl();
-		List<MemberVO> list = new ArrayList<>();
-		list = managerDao.memberSelectList();
-		request.setAttribute("list", list);
-		return "manager/memberList";
+		MemberVO vo = new MemberVO();
+		vo.setMemberNo(Integer.valueOf(request.getParameter("memberNo")));
+		int n = managerDao.managerMemberDelete(vo);
+		String jsonList = "0";
+		if(n != 0) {
+			jsonList = "1";
+		}
+		return "ajax:"+jsonList;
 	}
 }

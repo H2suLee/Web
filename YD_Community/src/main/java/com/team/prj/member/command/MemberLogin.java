@@ -22,14 +22,15 @@ public class MemberLogin implements Command {
 		vo.setMemberPw(request.getParameter("memberPw"));
 		vo = dao.memberLogin(vo);
 
-		if (vo != null) {
+		if (vo.getMemberNick() != null) {
 			session.setAttribute("member", vo);
 			request.setAttribute("message", "환영합니다, " + vo.getMemberNick() + "님!");
+			return "main.do";
 
 		} else {
 			request.setAttribute("message", "아이디 또는 패스워드가 일치하지 않습니다.");
+			return "member/memberLogin";
 		}
-		return "member/memberLogin";
 	}
 
 }
