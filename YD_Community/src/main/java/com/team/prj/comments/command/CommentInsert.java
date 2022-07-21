@@ -23,16 +23,6 @@ public class CommentInsert implements Command {
 		vo.setCommentContent(request.getParameter("con"));
 		vo.setMemberNo(Integer.parseInt(request.getParameter("mNo")));
 		vo = dao.commentInsert(vo);
-		// gsonbuilder랑 printwriter
-		//ObjectMapper mapper = new ObjectMapper();
-		//String jsonList = null;
-		//try {
-		//	jsonList = mapper.writeValueAsString(dao.commentInsert(vo));
-		//} catch (JsonProcessingException e) {
-		//	e.printStackTrace();
-		//}
-		
-		
 		
 		return "ajax:" + vo.getBoardNo();
 	}
