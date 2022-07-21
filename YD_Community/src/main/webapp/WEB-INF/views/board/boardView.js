@@ -2,6 +2,23 @@ $(document).ready(function() {
 	$('#delBtn').on('click', delComment);
 })
 
+function updateComment(){
+	var result = confirm("댓글을 수정하시겠습니까?");
+	if (result) {
+		
+		$.ajax({
+			url : 'commentUpdate.do',
+			method : 'post',
+			data : {cNo : cNo, bNo : bNo, con : con},
+			dataType : 'text',
+			success : function(result){console.log(result)},
+			error : function(error) {
+				alert('처리 중 오류 발생!');
+			}
+		})
+	}
+}
+
 function deletePost() {
 	var result = confirm("게시글을 삭제하시겠습니까?");
 	if (result) {
