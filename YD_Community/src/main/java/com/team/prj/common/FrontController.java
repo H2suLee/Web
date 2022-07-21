@@ -1,7 +1,6 @@
 package com.team.prj.common;
 
 import java.io.IOException;
-
 import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
@@ -21,23 +20,28 @@ import com.team.prj.board.command.BoardUpdate;
 import com.team.prj.board.command.BoardUpdateForm;
 import com.team.prj.board.command.BoardView;
 import com.team.prj.board.command.FreeBoardList;
-
-import com.team.prj.board.command.NoticeBoardForm;
 import com.team.prj.board.command.NoticeBoardList;
-import com.team.prj.board.command.QnaBoardForm;
-
 import com.team.prj.board.command.QnaBoardList;
 import com.team.prj.board.command.TotalBoardList;
+import com.team.prj.comments.command.CommentDelete;
 import com.team.prj.comments.command.CommentInsert;
+import com.team.prj.comments.command.CommentUpdate;
+import com.team.prj.comments.command.CommentUpdateForm;
 import com.team.prj.manager.command.ManagerBoardDelete;
 import com.team.prj.manager.command.ManagerBoardList;
+import com.team.prj.manager.command.ManagerBoardSearch;
+import com.team.prj.manager.command.ManagerMain;
 import com.team.prj.manager.command.ManagerMemberDelete;
 import com.team.prj.manager.command.ManagerMemberList;
 import com.team.prj.manager.command.ManagerMemberSearch;
 import com.team.prj.manager.command.MemberUpdateAuthor;
+import com.team.prj.manager.command.XwordDelete;
+import com.team.prj.manager.command.XwordInsert;
 import com.team.prj.manager.command.XwordInsertForm;
 import com.team.prj.manager.command.XwordList;
-import com.team.prj.manager.command.ManagerBoardSearch;
+import com.team.prj.manager.command.XwordSearch;
+import com.team.prj.manager.command.XwordUpdate;
+import com.team.prj.manager.command.XwordUpdateForm;
 import com.team.prj.member.command.AjaxMemberIdCheck;
 import com.team.prj.member.command.AjaxMemberNicknameCheck;
 import com.team.prj.member.command.KakaoJoin;
@@ -57,6 +61,7 @@ import com.team.prj.page.command.MemberScrap;
 import com.team.prj.page.command.MemberStudy;
 import com.team.prj.page.command.MemberStudyBoard;
 import com.team.prj.page.command.MemberStudyRecent;
+import com.team.prj.study.command.AjaxNoticeSearche;
 import com.team.prj.study.command.StudyDelete;
 import com.team.prj.study.command.StudyForm;
 import com.team.prj.study.command.StudyInsert;
@@ -99,7 +104,7 @@ public class FrontController extends HttpServlet {
 		map.put("/StudyForm.do", new StudyForm());//게시글입력폼 호출
     
 		//관리자
-		//map.put("/managerMain.do", new ManagerMain()); //관리자 메인 화면
+		map.put("/managerMain.do", new ManagerMain()); //관리자 메인 화면
 		map.put("/managerMemberList.do", new ManagerMemberList()); //회원 전체 목록
 		map.put("/managermemberSearch.do", new ManagerMemberSearch()); //회원 검색
 		map.put("/managerMemberDelete.do", new ManagerMemberDelete()); //회원삭제
@@ -108,11 +113,12 @@ public class FrontController extends HttpServlet {
 		map.put("/managerBoardSearch.do", new ManagerBoardSearch()); //게시글 검색
 		map.put("/managerBoardDelete.do", new ManagerBoardDelete());
 		map.put("/XwordList.do", new XwordList()); //금지어 전체 목록
-		//map.put("/XwordSearchList.do", new XwordSearchList()); //금지어 검색
+		map.put("/XwordSearch.do", new XwordSearch()); //금지어 검색
 		map.put("/XwordInsertForm.do", new XwordInsertForm()); //금지어 입력 팝업창
-		//map.put("/XwordInsert.do", new XwordInsert()); //금지어 입력
-		//map.put("/XwordUpdate.do", new XwordUpdate()); //금지어 수정
-		//map.put("/XwordDelete.do", new XwordDelete()); //금지어 삭제
+		map.put("/XwordInsert.do", new XwordInsert());
+		map.put("/XwordUpdateForm.do", new XwordUpdateForm()); //금지어 수정 팝업창
+		map.put("/XwordUpdate.do", new XwordUpdate()); //금지어 수정
+		map.put("/XwordDelete.do", new XwordDelete()); //금지어 삭제
 
 		//스터디게시판
 		map.put("/StudyList.do", new StudyList());//게시글리스트폼 호출
@@ -121,6 +127,8 @@ public class FrontController extends HttpServlet {
 		map.put("/StudyDelete.do", new StudyDelete());
 		map.put("/StudyUpdateForm.do", new StudyUpdateForm());
 		map.put("/StudyUpdate.do", new StudyUpdate());
+		map.put("/StudyUpdate.do", new StudyUpdate());
+		map.put("/ajaxNoticeSearche.do", new AjaxNoticeSearche());
 		
 	
 		//마이페이지//
@@ -157,6 +165,10 @@ public class FrontController extends HttpServlet {
 		
 		// 댓글
 		map.put("/commentInsert.do", new CommentInsert());
+		map.put("/commentDelete.do", new CommentDelete());
+		map.put("/commentUpdateForm.do", new CommentUpdateForm());
+		map.put("/commentUpdate.do", new CommentUpdate());
+		
 	}
 	
 	protected void service(HttpServletRequest request, HttpServletResponse response)

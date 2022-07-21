@@ -24,7 +24,7 @@ public class ManagerServiceImpl implements ManagerService {
 	public List<MemberVO> managerMemberSelectAll() {
 		List<MemberVO> list = new ArrayList<MemberVO>();
 		MemberVO vo;
-		String sql = "select * from member";
+		String sql = "select * from member order by member_no desc";
 
 		try {
 			conn = dao.getConnection();
@@ -53,7 +53,7 @@ public class ManagerServiceImpl implements ManagerService {
 	public List<MemberVO> managerMemberSearch(String key, String val) {
 		List<MemberVO> list = new ArrayList<MemberVO>();
 		MemberVO vo = new MemberVO();
-		String sql = "select * from member where " + key + " like '%" + val + "%'";
+		String sql = "select * from member where " + key + " like '%" + val + "%' order by member_no desc";
 
 		try {
 			conn = dao.getConnection();
@@ -77,6 +77,7 @@ public class ManagerServiceImpl implements ManagerService {
 		return list;
 	}
 
+	//회원삭제
 	@Override
 	public int managerMemberDelete(MemberVO vo) {
 		int r = 0;
@@ -96,6 +97,7 @@ public class ManagerServiceImpl implements ManagerService {
 		return r;
 	}
 
+	//회원 가입승인
 	@Override
 	public int memberUpdateAuthor(String key, String val) {
 		int r = 0;
@@ -139,7 +141,8 @@ public class ManagerServiceImpl implements ManagerService {
 				vo = new BoardVO();
 				vo.setBoardNo(rs.getInt("board_no"));
 				vo.setBoardCategory(rs.getString("board_category"));
-				vo.setBoardTitle(rs.getString("borad_title"));
+				vo.setBoardTitle(rs.getString("board_title"));
+				vo.setBoardWriter(rs.getString("board_writer"));
 				vo.setBoardDate(rs.getString("board_date"));
 				list.add(vo);
 			}
@@ -156,7 +159,7 @@ public class ManagerServiceImpl implements ManagerService {
 	public List<BoardVO> managerBoardSearch(String key, String val) {
 		List<BoardVO> list = new ArrayList<BoardVO>();
 		BoardVO vo;
-		String sql = "select * from board  where " + key + " like '%" + val + "%'";
+		String sql = "select * from board  where " + key + " like '%" + val + "%' order by board_no desc";
 
 		try {
 			conn = dao.getConnection();
@@ -206,7 +209,7 @@ public class ManagerServiceImpl implements ManagerService {
 	public List<CommentsVO> managerCommentsSelectAll() {
 		List<CommentsVO> list = new ArrayList<CommentsVO>();
 		CommentsVO vo;
-		String sql = "select * from Comments";
+		String sql = "select * from Comments order by comment_no desc";
 
 		try {
 			conn = dao.getConnection();
@@ -234,7 +237,7 @@ public class ManagerServiceImpl implements ManagerService {
 	public List<CommentsVO> managerCommentsSearch(String key, String val) {
 		List<CommentsVO> list = new ArrayList<CommentsVO>();
 		CommentsVO vo;
-		String sql = "select * from Comments where " + key + " like '%" + val + "%'";
+		String sql = "select * from Comments where " + key + " like '%" + val + "%' order by comment_no desc";
 
 		try {
 			conn = dao.getConnection();
@@ -284,7 +287,7 @@ public class ManagerServiceImpl implements ManagerService {
 	public List<XwordVO> XwordSelectAll() {
 		List<XwordVO> list = new ArrayList<XwordVO>();
 		XwordVO vo;
-		String sql = "select * from Xword";
+		String sql = "select * from Xword order by xword_no";
 
 		try {
 			conn = dao.getConnection();
@@ -307,16 +310,14 @@ public class ManagerServiceImpl implements ManagerService {
 
 	// 금지어 목록 검색
 	@Override
-	public List<XwordVO> XwordSearch(String key, String val) {
+	public List<XwordVO> XwordSearch(String key) {
 		List<XwordVO> list = new ArrayList<XwordVO>();
 		XwordVO vo;
-		String sql = "select * from Xword where " + key + " like '%" + val + "%'";
+		String sql = "select * from xword where xword like '%"+key+"%' order by xwords_no";
 
 		try {
 			conn = dao.getConnection();
 			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, key);
-			psmt.setString(2, val);
 			rs = psmt.executeQuery();
 
 			while (rs.next()) {
@@ -335,27 +336,23 @@ public class ManagerServiceImpl implements ManagerService {
 
 	// 금지어 입력
 	@Override
-	public int XwordInsert(XwordVO vo) {
+	public int XwordInsert(String key) {
 		int r = 0;
-		String sql = "insert into xword (xword) values (?)";
-
+		String sql = "insert into xword values(XWORD_seq.nextval,?)";
+		System.out.println(r);
+		System.out.println(key);
 		try {
 			conn = dao.getConnection();
 			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, vo.getXword());
-
+			psmt.setString(1, key);
 			r = psmt.executeUpdate();
-
-			if (rs.next()) {
-				vo = new XwordVO();
-				vo.setXword(rs.getString("xword"));
-			}
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			close();
 		}
+		System.out.println("r : " +r);
 		return r;
 	}
 
@@ -387,19 +384,39 @@ public class ManagerServiceImpl implements ManagerService {
 
 	// 금지어 수정
 	@Override
-	public int XwordUpdate(XwordVO vo) {
+	public int XwordUpdate(String key, String val) {
 		int r = 0;
-		String sql = "update xword set (xword) values (?)";
+		String sql = "update xword set xword = ? where xword_no= ?";
 
 		try {
 			conn = dao.getConnection();
 			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, vo.getXword());
+			psmt.setString(1, key);	//금지어 no
+			psmt.setString(2, val); //바뀐 금지어
 
 			r = psmt.executeUpdate();
 
-			if (rs.next()) {
-				vo = new XwordVO();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return r;
+	}
+	
+	//금지어 단건 조회
+	@Override
+	public XwordVO XwordSelectOne(String key) {
+		XwordVO vo = new XwordVO();
+		String sql = "select * from Xword where xword_no =?";
+		try {
+			conn = dao.getConnection();
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, key);	//금지어 no
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				vo.setXwordNo(rs.getInt("xword_no"));
 				vo.setXword(rs.getString("xword"));
 			}
 
@@ -408,7 +425,7 @@ public class ManagerServiceImpl implements ManagerService {
 		} finally {
 			close();
 		}
-		return r;
+		return vo;
 	}
 
 	private void close() {

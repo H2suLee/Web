@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -313,7 +315,15 @@ a {
     
     
     textarea::placeholder {
-  font-size: 1.2em;
+         font-size: 2.5em;
+}
+
+.board_view .cont {
+    padding: 15px;
+    border-bottom: 1px solid #000;
+    line-height: 160%;
+    font-size: 1.4rem;
+    font-size:14px;
 }
     
     </style>
@@ -381,13 +391,13 @@ a {
 
                 </div>
                 <div class="cont">
-                    <textarea placeholder="내용 입력 "id="studySubject" name="studySubject"></textarea>
+                    <textarea placeholder="스터디내용을 자유롭게 적어보세요~"id="studySubject" name="studySubject"></textarea>
                 </div>
-            </div> <br>
+            </div> 
             
                <div>
-				   <input type="submit" id ="input1" value="제출">&nbsp;&nbsp;&nbsp; 
-					<input id ="input2" type="reset" value="취소">
+				   <input type="submit" class="btn btn-success"  value="제출">&nbsp;&nbsp;&nbsp; 
+					<input  class="btn btn-success"type="reset" value="취소">
 				</div>
             
             </div>
